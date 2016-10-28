@@ -188,18 +188,26 @@
       "/Users/andela/Desktop/mic/checkpoints/bucketlist/do/app/models/bucketlist.rb": [
         1,
         1,
+        1,
+        null,
+        1,
         null
       ],
       "/Users/andela/Desktop/mic/checkpoints/bucketlist/do/app/models/item.rb": [
         1,
         1,
+        null,
+        1,
         null
       ],
       "/Users/andela/Desktop/mic/checkpoints/bucketlist/do/app/models/user.rb": [
         1,
+        1,
+        1,
+        1,
         null
       ]
     },
-    "timestamp": 1477652179
+    "timestamp": 1477652635
   }
 }
