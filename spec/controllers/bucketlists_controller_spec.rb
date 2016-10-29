@@ -77,7 +77,7 @@ RSpec.describe Api::V1::BucketlistsController, type: :controller do
         json_response = JSON.parse(response.body, symbolize_names: true)
         expect(response).to have_http_status(:success)
         expect(Bucketlist.first.name).to_not eq nil
-        expect(json_response[:name]).to_not eq "MyBucketlist"
+        expect(Bucketlist.first.name).to eq "MyBucketlist" 
         expect(json_response[:error]).to eq "Bucketlist not updated try again"
       end
     end

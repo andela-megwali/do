@@ -11,7 +11,6 @@ RSpec.describe Api::V1::ItemsController, type: :controller do
       it "creates a new item" do
         post :create, item: attributes_for(:item), bucketlist_id: 1
         json_response = JSON.parse(response.body, symbolize_names: true)
-        binding.pry
         expect(response).to have_http_status(:success)
         expect(Item.count).to eq 1
         expect(json_response[:id]).to eq 1

@@ -33,6 +33,7 @@
         null,
         null,
         1,
+        1,
         null,
         null
       ],
@@ -128,6 +129,7 @@
         null
       ],
       "/Users/andela/Desktop/mic/checkpoints/bucketlist/do/config/routes.rb": [
+        1,
         1,
         1,
         1,
@@ -298,6 +300,52 @@
         null,
         null
       ],
+      "/Users/andela/Desktop/mic/checkpoints/bucketlist/do/app/controllers/users_controller.rb": [
+        1,
+        1,
+        null,
+        1,
+        2,
+        2,
+        1,
+        null,
+        1,
+        null,
+        null,
+        null,
+        1,
+        2,
+        1,
+        null,
+        1,
+        null,
+        null,
+        null,
+        1,
+        1,
+        null,
+        null,
+        1,
+        1,
+        1,
+        null,
+        null,
+        1,
+        null,
+        1,
+        4,
+        null,
+        null,
+        1,
+        4,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
       "/Users/andela/Desktop/mic/checkpoints/bucketlist/do/app/models/bucketlist.rb": [
         1,
         1,
@@ -351,6 +399,6 @@
         null
       ]
     },
-    "timestamp": 1477659985
+    "timestamp": 1477730078
   }
 }
