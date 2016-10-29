@@ -1,13 +1,13 @@
-require "rails_helper"
+require 'rails_helper'
 
-RSpec.describe UsersController, type: :controller do
+RSpec.describe "Users", type: :request do
   user_token = JsonWebToken.encode(user_id: 1)
   auth_header = { "Authorization" => user_token }
 
   describe "POST #create" do
     context "with valid parameters" do
       it "creates a new user" do
-        post :create, user: attributes_for(:user)
+        post "/users", user: attributes_for(:user)
         json_response = JSON.parse(response.body, symbolize_names: true)
         expect(response).to have_http_status(:success)
         expect(User.count).to eq 1
@@ -30,13 +30,24 @@ RSpec.describe UsersController, type: :controller do
 
   describe "GET #show" do
     before { create :user }
-    it "renders the selected user" do
-      get :show, id: 1, {}, auth_header
-      json_response = JSON.parse(response.body, symbolize_names: true)
-      expect(response).to have_http_status(:success)
-      expect(json_response[:firstname]).to eq "TJ"
-      expect(json_response[:id]).to eq 1
-      expect(json_response[:id]).to eq User.first.id
+    context "when user is authorized" do
+      it "renders the selected user" do
+        get "/users/1", {}, auth_header
+        json_response = JSON.parse(response.body, symbolize_names: true)
+        expect(response).to have_http_status(:success)
+        expect(json_response[:firstname]).to eq "TJ"
+        expect(json_response[:id]).to eq 1
+        expect(json_response[:id]).to eq User.first.id
+      end
+    end
+
+    context "when user is not authorized" do
+      it "returns unauthorized error message" do
+        get "/users/1", {}, nil
+        json_response = JSON.parse(response.body, symbolize_names: true)
+        expect(response).to have_http_status(:unauthorized)
+        expect(json_response[:error]).to eq "Not Authorized"
+      end
     end
   end
 
@@ -75,5 +86,4 @@ RSpec.describe UsersController, type: :controller do
       expect(json_response[:message]).to eq "User deleted"
     end
   end
-
 end

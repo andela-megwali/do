@@ -5,6 +5,8 @@ RSpec.describe Api::V1::ItemsController, type: :controller do
   # before do
   #   allow(controller).to receive(:doorkeeper_token) { token }
   # end
+  user_token = JsonWebToken.encode(user_id: 1)
+  auth_header = { "Authorization" => user_token }
 
   describe "POST #create" do
     context "with valid parameters" do
