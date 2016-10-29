@@ -5,7 +5,7 @@ class ApplicationController < ActionController::API
   private
 
   def authenticate_request
-    return token_not_authorized unless http_auth_header
+    return token_not_authorized unless http_auth_header.class.name == "User"
     @current_user = http_auth_header
   end
 
@@ -18,6 +18,5 @@ class ApplicationController < ActionController::API
     header_token = request.headers["Authorization"].split(" ").last
     decode_auth_token ||= JsonWebToken.decode(header_token)
     @user ||= User.find_by(id: decode_auth_token[:user_id]) if decode_auth_token
-    @user
   end
 end

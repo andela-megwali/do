@@ -1,6 +1,12 @@
 require "rails_helper"
 
 RSpec.describe UsersController, type: :controller do
+
+  # before do
+  #   create :user
+  #   post login_path, user: attributes_for(:user)
+  # end
+
   describe "before_action" do
     it { is_expected.to use_before_action(:set_user) }
   end
