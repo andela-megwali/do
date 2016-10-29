@@ -76,6 +76,7 @@ GEM
       jsonapi-renderer (= 0.1.1.beta1)
     jsonapi-parser (0.1.1.beta3)
     jsonapi-renderer (0.1.1.beta1)
+    jwt (1.5.6)
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
     mail (2.6.4)
@@ -162,6 +163,7 @@ GEM
     ruby-progressbar (1.8.1)
     shoulda-matchers (3.1.1)
       activesupport (>= 4.0.0)
+    simple_command (0.0.9)
     simplecov (0.12.0)
       docile (~> 1.1.0)
       json (>= 1.8, < 3)
@@ -202,6 +204,7 @@ DEPENDENCIES
   database_cleaner
   factory_girl_rails
   faker
+  jwt
   pg
   pry-rails
   puma
@@ -211,6 +214,7 @@ DEPENDENCIES
   rspec-rails
   rubocop
   shoulda-matchers
+  simple_command
   simplecov
   spring
   sqlite3
