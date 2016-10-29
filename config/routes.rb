@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  post "login" => "authentication#login"
+
   resources :users
   namespace :api do  
     namespace :v1 do  

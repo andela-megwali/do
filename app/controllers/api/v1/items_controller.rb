@@ -44,6 +44,6 @@ class Api::V1::ItemsController < ApplicationController
   end
 
   def get_bucketlist
-    User.find_by(session[:user_id]).bucketlists.find_by(id: params[:id])
+    @current_user.bucketlists.find_by(id: params[:id])
   end
 end

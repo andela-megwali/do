@@ -44,6 +44,6 @@ class Api::V1::BucketlistsController < ApplicationController
   end
 
   def set_user_id
-    @bucketlist.user_id = session[:user_id]
+    @bucketlist.user_id = @current_user.id
   end
 end
