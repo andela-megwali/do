@@ -3,12 +3,24 @@ class AuthenticationController < ApplicationController
 
   def login
     return invalid_credentials_detected unless authorize_user
-    user_token = JsonWebToken.encode(user_id: authorize_user.id)
+    payload = { user_id: authorize_user.id, iss: authorize_user.iss }
+    user_token = JsonWebToken.encode(payload)
     render json: { auth_token: user_token }
   end
 
+  # def logout
+  #   @invalidated_iss = @current_user.iss
+  #   binding.pry
+  #   @current_user.update_attributes(iss: rand(100..999).to_s)
+  #   if @current_user.iss != @invalidated_iss
+  #     render json: { message: "User logged out of all active sessions" }
+  #   end
+  # end
+
   def logout
-    @current_user
+    if @current_user.update(iss: rand(100..999).to_s)
+      render json: { message: "User logged out of all active sessions" }
+    end
   end
 
   private
