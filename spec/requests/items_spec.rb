@@ -1,16 +1,13 @@
-require "rails_helper"
+require 'rails_helper'
 
-RSpec.describe Api::V1::ItemsController, type: :controller do
-  # let(:token) { double acceptable?: true }
-  # before do
-  #   allow(controller).to receive(:doorkeeper_token) { token }
-  # end
+RSpec.describe "Items", type: :request do
+  user_token = JsonWebToken.encode(user_id: 1, iss: "123")
+  auth_header = { "Authorization" => user_token }
 
   describe "POST #create" do
     context "with valid parameters" do
       it "creates a new item" do
-        post :create, item: attributes_for(:item), bucketlist_id: 1
-        json_response = JSON.parse(response.body, symbolize_names: true)
+        post "/api/v1/bucketlists/1/items", { item: attributes_for(:item) }, set_authorization_header
         expect(response).to have_http_status(:success)
         expect(Item.count).to eq 1
         expect(json_response[:id]).to eq 1
@@ -21,8 +18,8 @@ RSpec.describe Api::V1::ItemsController, type: :controller do
 
     context "with invalid parameters" do
       it "fails to create a new item" do
-        post :create, item: { name: nil }, bucketlist_id: 1
-        json_response = JSON.parse(response.body, symbolize_names: true)
+        create :bucketlist
+        post "/api/v1/bucketlists/1/items", { item: { name: nil } } , set_authorization_header
         expect(response).to have_http_status(:success)
         expect(Item.count).to eq 0
         expect(json_response[:name]).to_not eq "MyItems"
@@ -34,8 +31,7 @@ RSpec.describe Api::V1::ItemsController, type: :controller do
   describe "GET #index" do
     before { create :item }
     it "lists all items in the selected bucketlist" do
-      get :index, bucketlist_id: 1
-      json_response = JSON.parse(response.body, symbolize_names: true)
+      get "/api/v1/bucketlists/1/items", {}, set_authorization_header
       expect(response).to have_http_status(:success)
       expect(json_response.first[:name]).to eq "MyItems"
       expect(json_response.count).to eq Item.count
@@ -44,9 +40,8 @@ RSpec.describe Api::V1::ItemsController, type: :controller do
 
   describe "GET #show" do
     before { create :item }
-    it "renders the selected bucketlist" do
-      get :show, id: 1, bucketlist_id: 1
-      json_response = JSON.parse(response.body, symbolize_names: true)
+    it "renders the selected item" do
+      get "/api/v1/bucketlists/1/items/1", {}, set_authorization_header
       expect(response).to have_http_status(:success)
       expect(json_response[:name]).to eq "MyItems"
       expect(json_response[:id]).to eq 1
@@ -57,9 +52,8 @@ RSpec.describe Api::V1::ItemsController, type: :controller do
   describe "PUT #update" do
     before { create :item }
     context "with valid parameters" do
-      it "updates selected bucketlist" do
-        put :update, id: 1, item: { name: "Taris" }, bucketlist_id: 1
-        json_response = JSON.parse(response.body, symbolize_names: true)
+      it "updates selected item" do
+        put "/api/v1/bucketlists/1/items/1", { item: { name: "Taris" } }, set_authorization_header
         expect(response).to have_http_status(:success)
         expect(json_response[:name]).to eq "Taris"
         expect(Item.first.name).to eq "Taris"
@@ -68,9 +62,8 @@ RSpec.describe Api::V1::ItemsController, type: :controller do
     end
 
     context "with invalid parameters" do
-      it "fails to update selected bucketlist" do
-        put :update, id: 1, item: { name: nil }, bucketlist_id: 1
-        json_response = JSON.parse(response.body, symbolize_names: true)
+      it "fails to update selected item" do
+        put "/api/v1/bucketlists/1/items/1", { item: { name: nil } }, set_authorization_header
         expect(response).to have_http_status(:success)
         expect(Item.first.name).to_not eq nil
         expect(json_response[:name]).to_not eq "MyItems"
@@ -81,9 +74,8 @@ RSpec.describe Api::V1::ItemsController, type: :controller do
 
   describe "DELETE #destroy" do
     before { create :item }
-    it "destroys the selected bucketlist" do
-      delete :destroy, id: 1, bucketlist_id: 1
-      json_response = JSON.parse(response.body, symbolize_names: true)
+    it "destroys the selected item" do
+      delete "/api/v1/bucketlists/1/items/1", {}, set_authorization_header
       expect(response).to have_http_status(:success)
       expect(json_response[:name]).to eq nil
       expect(Item.count).to eq 0
