@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
-  post "login" => "authentication#login"
+  post "/auth/login", to: "authentication#login"
+  get "/auth/logout", to: "authentication#logout"
 
   resources :users
   namespace :api do  
