@@ -14,7 +14,7 @@ module Api
       end
 
       def index
-        @bucketlists = Bucketlist.all
+        @bucketlists = @current_user.bucketlists
         render json: @bucketlists
       end
 
