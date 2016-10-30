@@ -7,7 +7,7 @@ RSpec.describe "Users", type: :request do
   describe "POST #create" do
     context "with valid parameters" do
       it "creates a new user" do
-        post "/users", user: attributes_for(:user)
+        post users_path, user: attributes_for(:user)
         json_response = JSON.parse(response.body, symbolize_names: true)
         expect(response).to have_http_status(:success)
         expect(User.count).to eq 1
@@ -18,7 +18,7 @@ RSpec.describe "Users", type: :request do
 
     context "with invalid parameters" do
       it "fails to create a new user" do
-        post "/users", user: { firstname: nil }
+        post users_path, user: { firstname: nil }
         json_response = JSON.parse(response.body, symbolize_names: true)
         expect(response).to have_http_status(:success)
         expect(User.count).to eq 0
@@ -32,7 +32,7 @@ RSpec.describe "Users", type: :request do
     before { create :user }
     context "when user is authorized" do
       it "renders the selected user" do
-        get "/users/1", {}, auth_header
+        get user_path(1), {}, auth_header
         json_response = JSON.parse(response.body, symbolize_names: true)
         expect(response).to have_http_status(:success)
         expect(json_response[:firstname]).to eq "TJ"
@@ -43,7 +43,7 @@ RSpec.describe "Users", type: :request do
 
     context "when user is not authorized" do
       it "returns unauthorized error message" do
-        get "/users/1", {}, nil
+        get user_path(1), {}, nil
         json_response = JSON.parse(response.body, symbolize_names: true)
         expect(response).to have_http_status(:unauthorized)
         expect(json_response[:error]).to eq "Not Authorized"
@@ -55,7 +55,7 @@ RSpec.describe "Users", type: :request do
     before { create :user }
     context "with valid parameters" do
       it "updates selected user" do
-        put "/users/1", { user: { firstname: "Taris", password: "1234567" } }, auth_header
+        put user_path(1), { user: { firstname: "Taris", password: "1234567" } }, auth_header
         json_response = JSON.parse(response.body, symbolize_names: true)
         expect(response).to have_http_status(:success)
         expect(json_response[:firstname]).to eq "Taris"
@@ -66,7 +66,7 @@ RSpec.describe "Users", type: :request do
 
     context "with invalid parameters" do
       it "fails to update selected user" do
-        put "/users/1", { user: { firstname: nil } }, auth_header
+        put user_path(1), { user: { firstname: nil } }, auth_header
         json_response = JSON.parse(response.body, symbolize_names: true)
         expect(response).to have_http_status(:success)
         expect(User.first.firstname).to_not eq nil
@@ -78,7 +78,7 @@ RSpec.describe "Users", type: :request do
   describe "DELETE #destroy" do
     before { create :item }
     it "destroys the selected user" do
-      delete "/users/1", {}, auth_header
+      delete user_path(1), {}, auth_header
       json_response = JSON.parse(response.body, symbolize_names: true)
       expect(response).to have_http_status(:success)
       expect(json_response[:firstname]).to eq nil

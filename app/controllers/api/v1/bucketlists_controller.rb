@@ -3,7 +3,7 @@ class Api::V1::BucketlistsController < ApplicationController
 
   def create
     @bucketlist = Bucketlist.new(bucketlist_params)
-    set_user_id
+    @bucketlist.user_id = @current_user.id
     if @bucketlist.save
       render json: @bucketlist
     else
@@ -41,9 +41,5 @@ class Api::V1::BucketlistsController < ApplicationController
 
   def bucketlist_params
     params.require(:bucketlist).permit(:name)
-  end
-
-  def set_user_id
-    @bucketlist.user_id = @current_user.id
   end
 end

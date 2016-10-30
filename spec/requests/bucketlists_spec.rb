@@ -1,16 +1,13 @@
-require "rails_helper"
+require 'rails_helper'
 
-RSpec.describe Api::V1::BucketlistsController, type: :controller do
-  # let(:token) { double acceptable?: true }
-  # before do
-  #   allow(controller).to receive(:doorkeeper_token) { token }
-  # end
+RSpec.describe "Bucketlists", type: :request do
+  user_token = JsonWebToken.encode(user_id: 1)
+  auth_header = { "Authorization" => user_token }
 
   describe "POST #create" do
     context "with valid parameters" do
       it "creates a new bucketlist" do
-        session[:user_id] = 1
-        post :create, bucketlist: attributes_for(:bucketlist)
+        post "/api/v1/bucketlists", { bucketlist: attributes_for(:bucketlist) }, auth_header
         json_response = JSON.parse(response.body, symbolize_names: true)
         expect(response).to have_http_status(:success)
         expect(Bucketlist.count).to eq 1
@@ -22,8 +19,8 @@ RSpec.describe Api::V1::BucketlistsController, type: :controller do
 
     context "with invalid parameters" do
       it "fails to create a new bucketlist" do
-        session[:user_id] = 1
-        post :create, bucketlist: { name: nil }
+        create :user
+        post "/api/v1/bucketlists", { bucketlist: { name: nil } }, auth_header
         json_response = JSON.parse(response.body, symbolize_names: true)
         expect(response).to have_http_status(:success)
         expect(Bucketlist.count).to eq 0
@@ -36,7 +33,7 @@ RSpec.describe Api::V1::BucketlistsController, type: :controller do
   describe "GET #index" do
     before { create :item }
     it "lists all bucketlists" do
-      get :index
+      get "/api/v1/bucketlists", {}, auth_header
       json_response = JSON.parse(response.body, symbolize_names: true)
       expect(response).to have_http_status(:success)
       expect(json_response.first[:name]).to eq "MyBucketlist"
@@ -47,7 +44,7 @@ RSpec.describe Api::V1::BucketlistsController, type: :controller do
   describe "GET #show" do
     before { create :item }
     it "renders the selected bucketlist" do
-      get :show, id: 1
+      get "/api/v1/bucketlists/1", {}, auth_header
       json_response = JSON.parse(response.body, symbolize_names: true)
       expect(response).to have_http_status(:success)
       expect(json_response[:name]).to eq "MyBucketlist"
@@ -60,7 +57,7 @@ RSpec.describe Api::V1::BucketlistsController, type: :controller do
     before { create :item }
     context "with valid parameters" do
       it "updates selected bucketlist" do
-        put :update, id: 1, bucketlist: { name: "Taris" }
+        put "/api/v1/bucketlists/1", { bucketlist: { name: "Taris" } }, auth_header
         json_response = JSON.parse(response.body, symbolize_names: true)
         expect(response).to have_http_status(:success)
         expect(json_response[:name]).to eq "Taris"
@@ -73,7 +70,7 @@ RSpec.describe Api::V1::BucketlistsController, type: :controller do
 
     context "with invalid parameters" do
       it "fails to update selected bucketlist" do
-        put :update, id: 1, bucketlist: { name: nil }
+        put "/api/v1/bucketlists/1", { bucketlist: { name: nil } }, auth_header
         json_response = JSON.parse(response.body, symbolize_names: true)
         expect(response).to have_http_status(:success)
         expect(Bucketlist.first.name).to_not eq nil
@@ -86,7 +83,7 @@ RSpec.describe Api::V1::BucketlistsController, type: :controller do
   describe "DELETE #destroy" do
     before { create :item }
     it "destroys the selected bucketlist" do
-      delete :destroy, id: 1
+      delete "/api/v1/bucketlists/1", {}, auth_header
       json_response = JSON.parse(response.body, symbolize_names: true)
       expect(response).to have_http_status(:success)
       expect(json_response[:name]).to eq nil
