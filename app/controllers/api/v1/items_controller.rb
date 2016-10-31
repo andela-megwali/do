@@ -1,7 +1,7 @@
 module Api
   module V1
     class ItemsController < ApplicationController
-      before_action :get_bucketlist
+      before_action :get_bucketlist_items
       before_action :set_item, except: [:create, :index]
 
       def create
@@ -15,8 +15,7 @@ module Api
       end
 
       def index
-        @items = Item.all
-        render json: @items
+        render json: @items.paginate(params[:limit], params[:page])
       end
 
       def show
@@ -42,17 +41,19 @@ module Api
         params.require(:item).permit(:name, :done)
       end
 
-      def get_bucketlist
+      def get_bucketlist_items
         @bucketlist = @current_user.bucketlists.find(params[:bucketlist_id])
+        return { error: not_permitted_message, status: 403 } unless @bucketlist
+        @items = @bucketlist.items
       end
 
       def set_item
-        @item = @bucketlist.items.find(params[:id]) if @bucketlist
-        @item ||= { error: not_permitted_message, status: 403 }
+        @item = @items.find(params[:id])
+        return { error: not_permitted_message, status: 403 } unless @item
       end
 
       def set_bucketlist_id
-        @item.bucketlist_id = @bucketlist.id if @bucketlist
+        @item.bucketlist_id = @bucketlist.id
       end
     end
   end
