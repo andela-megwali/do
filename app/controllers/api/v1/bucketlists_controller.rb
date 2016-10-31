@@ -1,6 +1,7 @@
 module Api
   module V1
     class BucketlistsController < ApplicationController
+      before_action :get_user_bucketlists, except: [:create]
       before_action :set_bucketlist, except: [:create, :index]
 
       def create
@@ -9,13 +10,12 @@ module Api
         if @bucketlist.save
           render json: @bucketlist
         else
-          render json: { error: "Bucketlist not created try again" }
+          render json: { error: not_created_message }
         end
       end
 
       def index
-        @bucketlists = Bucketlist.all
-        render json: @bucketlists
+        render json: @bucketlists.paginate(params[:limit], params[:page])
       end
 
       def show
@@ -26,19 +26,24 @@ module Api
         if @bucketlist.update(bucketlist_params)
           render json: @bucketlist
         else
-          render json: { error: "Bucketlist not updated try again" }
+          render json: { error: not_updated_message }
         end
       end
 
       def destroy
         @bucketlist.destroy
-        render json: { message: "Bucketlist deleted" }
+        render json: { message: delete_message }
       end
 
       private
 
+      def get_user_bucketlists
+        @bucketlists = @current_user.bucketlists
+      end
+
       def set_bucketlist
-        @bucketlist = Bucketlist.find(params[:id])
+        @bucketlist = @bucketlists.find(params[:id])
+        return { error: not_permitted_message, status: 403 } unless @bucketlist
       end
 
       def bucketlist_params

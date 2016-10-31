@@ -1,4 +1,6 @@
 class Bucketlist < ActiveRecord::Base
+  extend Paginate
+
   belongs_to :user
   has_many :items
 

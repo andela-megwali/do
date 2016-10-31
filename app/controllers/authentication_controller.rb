@@ -8,18 +8,9 @@ class AuthenticationController < ApplicationController
     render json: { auth_token: user_token }
   end
 
-  # def logout
-  #   @invalidated_iss = @current_user.iss
-  #   binding.pry
-  #   @current_user.update_attributes(iss: rand(100..999).to_s)
-  #   if @current_user.iss != @invalidated_iss
-  #     render json: { message: "User logged out of all active sessions" }
-  #   end
-  # end
-
   def logout
     if @current_user.update(iss: rand(100..999).to_s)
-      render json: { message: "User logged out of all active sessions" }
+      render json: { message: logout_message }
     end
   end
 
@@ -35,6 +26,6 @@ class AuthenticationController < ApplicationController
   end
 
   def invalid_credentials_detected
-    render json: { error: "Invalid Credentials Detected" }, status: 401
+    render json: { error: invalid_login_message }, status: 401
   end
 end
