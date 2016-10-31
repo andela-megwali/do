@@ -6,6 +6,7 @@ module Api
 
       def create
         @item = Item.new(item_params)
+        get_bucketlist_id
         if @item.save
           render json: @item
         else
@@ -45,8 +46,9 @@ module Api
         params.require(:item).permit(:name, :done)
       end
 
-      def get_bucketlist
-        @current_user.bucketlists.find_by(id: params[:id])
+      def get_bucketlist_id
+        @bucketlist = @current_user.bucketlists.find_by(id: params[:id])
+        @item.bucketlist_id = @bucketlist.id if @bucketlist
       end
     end
   end

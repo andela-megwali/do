@@ -1,5 +1,5 @@
 class Item < ActiveRecord::Base
   belongs_to :bucketlist
 
-  validates_presence_of :name
+  validates_presence_of :name, :bucketlist_id
 end
