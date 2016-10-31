@@ -7,7 +7,7 @@ class UsersController < ApplicationController
     if @user.save
       render json: @user
     else
-      render json: { error: "User not created try again" }
+      render json: { error: not_created_message }
     end
   end
 
@@ -15,7 +15,7 @@ class UsersController < ApplicationController
     if @user.update(user_params)
       render json: @user
     else
-      render json: { error: "User not updated try again" }
+      render json: { error: not_updated_message }
     end
   end
 
@@ -25,7 +25,7 @@ class UsersController < ApplicationController
 
   def destroy
     @user.destroy
-    render json: { message: "User deleted" }
+    render json: { message: delete_message }
   end
 
   private

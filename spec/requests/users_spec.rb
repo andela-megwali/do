@@ -18,7 +18,7 @@ RSpec.describe "Users", type: :request do
         expect(response).to have_http_status(:success)
         expect(User.count).to eq 0
         expect(json_response[:firstname]).to eq nil
-        expect(json_response[:error]).to eq "User not created try again"
+        expect(json_response[:error]).to eq "User not created, try again"
       end
     end
   end
@@ -60,7 +60,7 @@ RSpec.describe "Users", type: :request do
         put user_path(1), { user: { firstname: nil } }, set_authorization_header
         expect(response).to have_http_status(:success)
         expect(User.first.firstname).to_not eq nil
-        expect(json_response[:error]).to eq "User not updated try again"
+        expect(json_response[:error]).to eq "User not updated, try again"
       end
     end
   end

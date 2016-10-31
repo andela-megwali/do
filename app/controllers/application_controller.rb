@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::API
+  include Concerns::Messages
+
   before_action :authenticate_request
 
   private
@@ -8,12 +10,8 @@ class ApplicationController < ActionController::API
     @current_user = decode_auth_header
   end
 
-  # def current_user
-  #   decode_auth_header
-  # end
-
   def token_not_authorized
-    render json: { error: "Not Authorized" }, status: 401
+    render json: { error: not_authorized_message }, status: 401
   end
 
   def decode_auth_header

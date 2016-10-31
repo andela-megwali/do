@@ -16,6 +16,12 @@ module Helpers
       auth_header
     end
 
+    def create_item
+      auth_header = create_bucketlist
+      post "/api/v1/bucketlists/1/items", { item: attributes_for(:item) }, auth_header
+      auth_header
+    end
+
     def invalid_token
       create :user
       user_token = JsonWebToken.encode(user_id: 1, iss: "123")
