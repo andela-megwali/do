@@ -206,7 +206,9 @@
         null,
         1,
         null,
-        2,
+        1,
+        1,
+        null,
         null
       ],
       "/Users/andela/Desktop/mic/checkpoints/bucketlist/do/app/models/concerns/paginate.rb": [
@@ -570,6 +572,6 @@
         null
       ]
     },
-    "timestamp": 1477940397
+    "timestamp": 1477942868
   }
 }
