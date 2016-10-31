@@ -205,6 +205,8 @@
         1,
         null,
         1,
+        null,
+        2,
         null
       ],
       "/Users/andela/Desktop/mic/checkpoints/bucketlist/do/app/models/concerns/paginate.rb": [
@@ -250,21 +252,6 @@
         null,
         1,
         28,
-        null,
-        null
-      ],
-      "/Users/andela/Desktop/mic/checkpoints/bucketlist/do/lib/json_web_token.rb": [
-        1,
-        1,
-        23,
-        23,
-        null,
-        null,
-        1,
-        77,
-        77,
-        null,
-        0,
         null,
         null
       ],
@@ -360,6 +347,21 @@
         null,
         null
       ],
+      "/Users/andela/Desktop/mic/checkpoints/bucketlist/do/lib/json_web_token.rb": [
+        1,
+        1,
+        22,
+        22,
+        null,
+        null,
+        1,
+        76,
+        76,
+        null,
+        0,
+        null,
+        null
+      ],
       "/Users/andela/Desktop/mic/checkpoints/bucketlist/do/app/controllers/api/v1/bucketlists_controller.rb": [
         1,
         1,
@@ -379,6 +381,7 @@
         null,
         1,
         1,
+        null,
         null,
         null,
         1,
@@ -567,6 +570,6 @@
         null
       ]
     },
-    "timestamp": 1477935134
+    "timestamp": 1477940397
   }
 }

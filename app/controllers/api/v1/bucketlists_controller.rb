@@ -15,7 +15,8 @@ module Api
       end
 
       def index
-        render json: @bucketlists.paginate(params[:limit], params[:page])
+        render json: @bucketlists.search(params[:q]).
+          paginate(params[:limit], params[:page])
       end
 
       def show

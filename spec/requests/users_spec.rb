@@ -47,7 +47,11 @@ RSpec.describe "Users", type: :request do
   describe "PUT #update" do
     context "with valid parameters" do
       it "updates selected user" do
-        put user_path(1), { user: { firstname: "Taris", password: "1234567" } }, set_authorization_header
+        put(
+          user_path(1),
+          { user: { firstname: "Taris", password: "1234567" } },
+          set_authorization_header
+        )
         expect(response).to have_http_status(:success)
         expect(json_response[:firstname]).to eq "Taris"
         expect(User.first.firstname).to eq "Taris"

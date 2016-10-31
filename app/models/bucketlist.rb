@@ -5,4 +5,8 @@ class Bucketlist < ActiveRecord::Base
   has_many :items
 
   validates_presence_of :name
+
+  scope :search, lambda { |name|
+    where("name LIKE ?", "%#{name}%")
+  }
 end

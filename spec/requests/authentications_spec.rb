@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe "Authentications", type: :request do
   describe "POST #login" do
@@ -7,7 +7,7 @@ RSpec.describe "Authentications", type: :request do
     context "with valid login credentials" do
       before { post "/auth/login", user: attributes_for(:user) }
 
-      it "assigns and renders a jwt authentication token" do 
+      it "assigns and renders a jwt authentication token" do
         expect(response).to have_http_status(200)
         expect(json_response[:auth_token]).to_not eq nil
       end
@@ -20,7 +20,7 @@ RSpec.describe "Authentications", type: :request do
         expect(decoded_token[:iss]).to eq User.first.iss
       end
     end
-    
+
     context "with invalid login credentials" do
       it "refuses user authorization" do
         post "/auth/login", user: { email: nil }
@@ -36,9 +36,9 @@ RSpec.describe "Authentications", type: :request do
       it "returns logout success message" do
         auth_header = set_authorization_header
         get "/auth/logout", {}, auth_header
-        decoded_token = JsonWebToken.decode(auth_header["Authorization"])
         expect(response).to have_http_status(200)
-        expect(json_response[:message]).to eq "User logged out of all active sessions"
+        expect(json_response[:message]).
+          to eq "User logged out of all active sessions"
       end
 
       it "invalidates all active jwt tokens" do
