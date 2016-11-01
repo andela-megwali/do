@@ -32,8 +32,8 @@ module Api
       end
 
       def destroy
-        @bucketlist.destroy
-        render json: { message: delete_message }
+        return (render json: @bucketlist) if @bucketlist.to_s[0] == "{"
+        render json: { message: delete_message } if @bucketlist.destroy
       end
 
       private
@@ -43,8 +43,8 @@ module Api
       end
 
       def set_bucketlist
-        @bucketlist = @bucketlists.find(params[:id])
-        return { error: not_permitted_message, status: 403 } unless @bucketlist
+        @bucketlist = @bucketlists.find_by(id: params[:id])
+        @bucketlist||= { error: not_permitted_message }
       end
 
       def bucketlist_params

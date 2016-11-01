@@ -180,7 +180,7 @@ You also need access to a steady internet connection for the initial installatio
 
     $  git clone https://github.com/andela-megwali/do.git
 
- Get into the appifly directory:
+ Get into the do directory:
 
     $  cd do
     
@@ -190,22 +190,22 @@ You also need access to a steady internet connection for the initial installatio
 
  Setup / Migrate database
 
-    $ rails db:setup
+    $ rake db:setup
 
  Seed database with data (optional)
 
-    $ rails db:seed
+    $ rake db:seed
 
  Start the puma server
 
     $ rails server
 
- Visit http://localhost:3000 to view the application on your browser.
+ Visit <code>http://localhost:3000</code> to view the application on your browser.
 
 
 ### Running the Tests
 
-To test the application, run 'bundle exec rspec' from the appifly directory after you have installed all the dependencies i.e. using 'bundle install' as previously described.
+To test the application, run 'bundle exec rspec' from the do directory after you have installed all the dependencies i.e. using 'bundle install' as previously described.
 
     $  bundle exec rspec
 

@@ -79,4 +79,16 @@ RSpec.describe "Bucketlists", type: :request do
       expect(json_response[:message]).to eq "Bucketlist deleted"
     end
   end
+
+  describe "Not permitted" do
+    it "disallows access to other user's bucketlists" do
+      create_bucketlist
+      post users_path, user: attributes_for(:user, :user2)
+      wale = User.find(2)
+      user_token = JsonWebToken.encode(user_id: wale.id , iss: wale.iss)
+      auth_header = { "Authorization" => user_token }
+      get bucketlist_path, {}, auth_header
+      expect(json_response[:error]).to eq "You do not own that Bucketlist"
+    end
+  end
 end

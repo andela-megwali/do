@@ -15,6 +15,7 @@ module Api
       end
 
       def index
+        return (render json: { error: not_permitted_message }) unless @items
         render json: @items.paginate(params[:limit], params[:page])
       end
 
@@ -31,8 +32,8 @@ module Api
       end
 
       def destroy
-        @item.destroy
-        render json: { message: delete_message }
+        return (render json: @item) if @item.to_s[0] == "{"
+        render json: { message: delete_message } if @item.destroy
       end
 
       private
@@ -42,14 +43,14 @@ module Api
       end
 
       def get_bucketlist_items
-        @bucketlist = @current_user.bucketlists.find(params[:bucketlist_id])
-        return { error: not_permitted_message, status: 403 } unless @bucketlist
-        @items = @bucketlist.items
+        @bucketlist = @current_user.bucketlists.
+          find_by(id: params[:bucketlist_id])
+        @items = @bucketlist.items if @bucketlist
       end
 
       def set_item
-        @item = @items.find(params[:id])
-        return { error: not_permitted_message, status: 403 } unless @item
+        @item = @items.find_by(id: params[:id])
+        @item ||= { error: not_permitted_message, status: 403 }
       end
 
       def set_bucketlist_id
