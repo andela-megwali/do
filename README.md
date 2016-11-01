@@ -122,23 +122,22 @@ Below is the list of available endpoints in the BucketList API. Some end points 
 
 The Json data model presentation format for Do! is given below:
 
-  {
-    id: 1,
-    name: “Travel BucketList”,
-    items: [
-             {
-                id: 1,
-                name: “I need to see Paris”,
-                date_created: “2015-08-12 11:57:23”,
-                date_modified: “2015-08-12 11:57:23”,
-                done: False
-             }
-    ]
-    date_created: “2015-08-12 11:57:23”,
-    date_modified: “2015-08-12 11:57:23”
-    created_by: “Donna”
-  }
-
+      {
+        id: 1,
+        name: “Travel BucketList”,
+        items: [
+                 {
+                    id: 1,
+                    name: “I need to see Paris”,
+                    date_created: “2015-08-12 11:57:23”,
+                    date_modified: “2015-08-12 11:57:23”,
+                    done: False
+                 }
+        ]
+        date_created: “2015-08-12 11:57:23”,
+        date_modified: “2015-08-12 11:57:23”
+        created_by: “Donna”
+      }
 
 ### Pagination And Search
 
