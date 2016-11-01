@@ -11,7 +11,7 @@ Before you kick the bucket, Do!
 
 ## Instructions For Getting Started
 
-The API documentation can be accessed via this link: [Do! Bucketlist](http://do-bucketlist.herokuapp.com). It explains clearly the rules of engagement with the API in an easily consumable manner. Basic information about the API is given below.
+The API documentation can be accessed by clicking: [Do! Bucketlist](http://do-bucketlist.herokuapp.com). It explains clearly the rules of engagement with the API in an easily consumable manner. Basic information about the API is given below.
 
 ### Functions and Features
 
@@ -121,6 +121,7 @@ Below is the list of available endpoints in the BucketList API. Some end points 
 ### JSON Data Model
 
 The Json data model presentation format for Do! is given below:
+
   {
     id: 1,
     name: “Travel BucketList”,
@@ -147,7 +148,7 @@ A maximum of 100 results per request is permitted.
 
   <b>Example Request:</b>
 
-  GET https://do-bucketlist.herokuapp.com/api/v1/bucketlists?page=2&limit=10
+    GET https://do-bucketlist.herokuapp.com/api/v1/bucketlists?page=2&limit=10
 
   <b>Response:</b>
 
