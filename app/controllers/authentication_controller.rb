@@ -2,8 +2,8 @@ class AuthenticationController < ApplicationController
   skip_before_action :authenticate_request, only: [:login]
 
   def login
-    return invalid_credentials_detected unless authorize_user
-    payload = { user_id: authorize_user.id, iss: authorize_user.iss }
+    return invalid_credentials_detected unless authenticate_user
+    payload = { user_id: authenticate_user.id, iss: authenticate_user.iss }
     user_token = JsonWebToken.encode(payload)
     render json: { auth_token: user_token }
   end
@@ -20,7 +20,7 @@ class AuthenticationController < ApplicationController
     params.require(:user).permit(:email, :password)
   end
 
-  def authorize_user
+  def authenticate_user
     @user = User.find_by(email: login_params[:email])
     @user.authenticate(login_params[:password]) if @user
   end

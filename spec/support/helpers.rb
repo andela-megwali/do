@@ -30,10 +30,9 @@ module Helpers
       auth_header
     end
 
-    def invalid_token
-      create :user
-      user_token = JsonWebToken.encode(user_id: 1, iss: "123")
-      { "Authorization" => user_token }
+    def tampered_token
+      auth_header = set_authorization_header
+      { "Authorization" => auth_header["Authorization"][0, 10] }
     end
 
     def bucketlist_path

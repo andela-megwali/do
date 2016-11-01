@@ -44,7 +44,7 @@ module Api
 
       def set_bucketlist
         @bucketlist = @bucketlists.find_by(id: params[:id])
-        @bucketlist||= { error: not_permitted_message }
+        @bucketlist ||= { error: not_permitted_message }
       end
 
       def bucketlist_params

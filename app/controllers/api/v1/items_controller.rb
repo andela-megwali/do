@@ -44,7 +44,7 @@ module Api
 
       def get_bucketlist_items
         @bucketlist = @current_user.bucketlists.
-          find_by(id: params[:bucketlist_id])
+                      find_by(id: params[:bucketlist_id])
         @items = @bucketlist.items if @bucketlist
       end
 

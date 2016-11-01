@@ -51,4 +51,26 @@ RSpec.describe "Authentications", type: :request do
       end
     end
   end
+
+  describe "prevent unauthorized use of authenticated tokens" do
+    context "with a tampered token" do
+      it "rejects all token requests" do
+        get user_path(1), {}, tampered_token
+        expect(response).to have_http_status(:unauthorized)
+        expect(json_response[:error]).to eq "Not Authorized"
+      end
+    end
+
+    context "with valid token" do
+      it "disallows access to other user's information" do
+        create_bucketlist
+        post users_path, user: attributes_for(:user, :user2)
+        wale = User.find(2)
+        user_token = JsonWebToken.encode(user_id: wale.id, iss: wale.iss)
+        auth_header = { "Authorization" => user_token }
+        get bucketlist_path, {}, auth_header
+        expect(json_response[:error]).to eq "You do not own that Bucketlist"
+      end
+    end
+  end
 end
