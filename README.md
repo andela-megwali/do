@@ -6,7 +6,9 @@
 
 ## Description
 
-Do! is an API (Application Programming Interface) Bucketlist Service that empowers you to keep track of those important things you need to get done in your lifetime. You can manage your bucketlists through any app or device combination which you authorize. Do! integration is seamless with any app, giving you a highly customisable and perhaps familiar experience.
+Do! is an API (Application Programming Interface) Bucketlist Service that empowers you to keep track of those important things you need to get done in your lifetime. Whether you want to see Paris, climb Everest, learn the piano, start a charity or write a will, Do! helps you keep track and live your dreams while you are alive.
+
+You can manage your bucketlists through any app or device combination which you authorize. Do! integration is seamless with any app, giving you a highly customisable and perhaps familiar experience.
 Before you kick the bucket, Do!
 
 ## Instructions For Getting Started
@@ -215,7 +217,7 @@ Do! API currently has only one version follow us on [Github](https://github.com/
 
 ## Limitations
 
-  * It currently doesn't have payment integration and refund
+  * It currently doesn't support admin features and scoping of authorized app permissions
 
 ## Contributing
 
