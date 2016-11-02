@@ -4,34 +4,34 @@ module Helpers
       JSON.parse(response.body, symbolize_names: true)
     end
 
-    def set_authorization_header
-      smith = create :user
+    def authorization_header(id)
+      smith = User.find(id)
       user_token = JsonWebToken.encode(user_id: smith.id, iss: smith.iss)
       { "Authorization" => user_token }
     end
 
     def create_bucketlist
-      auth_header = set_authorization_header
       post(
         bucketlists_path,
         { bucketlist: attributes_for(:bucketlist) },
-        auth_header
+        authorization_header(1)
       )
-      auth_header
     end
 
     def create_item
-      auth_header = create_bucketlist
       post(
         items_path,
         { item: attributes_for(:item) },
-        auth_header
+        authorization_header(1)
       )
-      auth_header
+    end
+
+    def decoded_token
+      JsonWebToken.decode(json_response[:auth_token])
     end
 
     def tampered_token
-      auth_header = set_authorization_header
+      auth_header = authorization_header(1)
       { "Authorization" => auth_header["Authorization"][0, 10] }
     end
 

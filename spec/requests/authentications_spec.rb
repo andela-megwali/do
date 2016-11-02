@@ -1,11 +1,11 @@
 require "rails_helper"
 
 RSpec.describe "Authentications", type: :request do
-  describe "POST #login" do
-    before { create :user }
+  before { create :user }
 
+  describe "POST #login" do
     context "with valid login credentials" do
-      before { post "/auth/login", user: attributes_for(:user) }
+      before { post auth_login_path, user: attributes_for(:user) }
 
       it "assigns and renders a jwt authentication token" do
         expect(response).to have_http_status(200)
@@ -13,7 +13,6 @@ RSpec.describe "Authentications", type: :request do
       end
 
       it "creates token with valid user_id and iss key" do
-        decoded_token = JsonWebToken.decode(json_response[:auth_token])
         expect(decoded_token).to have_key :user_id
         expect(decoded_token[:user_id]).to eq User.first.id
         expect(decoded_token).to have_key :iss
@@ -23,7 +22,7 @@ RSpec.describe "Authentications", type: :request do
 
     context "with invalid login credentials" do
       it "refuses user authorization" do
-        post "/auth/login", user: { email: nil }
+        post auth_login_path, user: { email: nil }
         expect(response).to have_http_status(401)
         expect(json_response[:auth_token]).to eq nil
         expect(json_response[:error]).to eq "Invalid Credentials Detected"
@@ -34,20 +33,19 @@ RSpec.describe "Authentications", type: :request do
   describe "GET #logout" do
     context "with valid jwt token" do
       it "returns logout success message" do
-        auth_header = set_authorization_header
-        get "/auth/logout", {}, auth_header
+        get auth_logout_path, {}, authorization_header(1)
         expect(response).to have_http_status(200)
         expect(json_response[:message]).
           to eq "User logged out of all active sessions"
       end
 
       it "invalidates all active jwt tokens" do
-        auth_header = set_authorization_header
-        get "/auth/logout", {}, auth_header
-        decoded_token = JsonWebToken.decode(auth_header["Authorization"])
-        expect(decoded_token[:user_id]).to eq User.first.id
-        expect(decoded_token).to have_key :iss
-        expect(decoded_token[:iss]).to_not eq User.first.iss
+        auth_header = authorization_header(1)
+        get auth_logout_path, {}, auth_header
+        invalid_token = JsonWebToken.decode(auth_header["Authorization"])
+        expect(invalid_token[:user_id]).to eq User.first.id
+        expect(invalid_token).to have_key :iss
+        expect(invalid_token[:iss]).to_not eq User.first.iss
       end
     end
   end
@@ -64,11 +62,8 @@ RSpec.describe "Authentications", type: :request do
     context "with valid token" do
       it "disallows access to other user's information" do
         create_bucketlist
-        post users_path, user: attributes_for(:user, :user2)
-        wale = User.find(2)
-        user_token = JsonWebToken.encode(user_id: wale.id, iss: wale.iss)
-        auth_header = { "Authorization" => user_token }
-        get bucketlist_path, {}, auth_header
+        create(:user, :user2)
+        get bucketlist_path, {}, authorization_header(2)
         expect(json_response[:error]).to eq "You do not own that Bucketlist"
       end
     end
