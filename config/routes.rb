@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "/", to: redirect("/docs/index.html")
   post "/auth/login", to: "authentication#login"
   get "/auth/logout", to: "authentication#logout"
 

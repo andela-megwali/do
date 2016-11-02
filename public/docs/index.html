@@ -1,0 +1,1052 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Do! API Documentation</title>
+
+    <style>
+      .highlight table td { padding: 5px; }
+.highlight table pre { margin: 0; }
+.highlight, .highlight .w {
+  color: #f8f8f2;
+  background-color: #272822;
+}
+.highlight .err {
+  color: #151515;
+  background-color: #ac4142;
+}
+.highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
+  color: #505050;
+}
+.highlight .cp {
+  color: #f4bf75;
+}
+.highlight .nt {
+  color: #f4bf75;
+}
+.highlight .o, .highlight .ow {
+  color: #d0d0d0;
+}
+.highlight .p, .highlight .pi {
+  color: #d0d0d0;
+}
+.highlight .gi {
+  color: #90a959;
+}
+.highlight .gd {
+  color: #ac4142;
+}
+.highlight .gh {
+  color: #6a9fb5;
+  background-color: #151515;
+  font-weight: bold;
+}
+.highlight .k, .highlight .kn, .highlight .kp, .highlight .kr, .highlight .kv {
+  color: #aa759f;
+}
+.highlight .kc {
+  color: #d28445;
+}
+.highlight .kt {
+  color: #d28445;
+}
+.highlight .kd {
+  color: #d28445;
+}
+.highlight .s, .highlight .sb, .highlight .sc, .highlight .sd, .highlight .s2, .highlight .sh, .highlight .sx, .highlight .s1 {
+  color: #90a959;
+}
+.highlight .sr {
+  color: #75b5aa;
+}
+.highlight .si {
+  color: #8f5536;
+}
+.highlight .se {
+  color: #8f5536;
+}
+.highlight .nn {
+  color: #f4bf75;
+}
+.highlight .nc {
+  color: #f4bf75;
+}
+.highlight .no {
+  color: #f4bf75;
+}
+.highlight .na {
+  color: #6a9fb5;
+}
+.highlight .m, .highlight .mf, .highlight .mh, .highlight .mi, .highlight .il, .highlight .mo, .highlight .mb, .highlight .mx {
+  color: #90a959;
+}
+.highlight .ss {
+  color: #90a959;
+}
+    </style>
+    <link href="stylesheets/screen.css" rel="stylesheet" media="screen" />
+    <link href="stylesheets/print.css" rel="stylesheet" media="print" />
+      <script src="javascripts/all.js"></script>
+  </head>
+
+  <body class="index" data-languages="[&quot;shell&quot;,&quot;ruby&quot;]">
+    <a href="#" id="nav-button">
+      <span>
+        NAV
+        <img src="images/navbar.png" />
+      </span>
+    </a>
+    <div class="tocify-wrapper">
+      <img src="images/do-logo.png" />
+        <div class="lang-selector">
+              <a href="#" data-language-name="shell">cURL</a>
+              <a href="#" data-language-name="ruby">Postman</a>
+        </div>
+        <div class="search">
+          <input type="text" class="search" id="input-search" placeholder="Search">
+        </div>
+        <ul class="search-results"></ul>
+      <div id="toc" class="tocify">
+      </div>
+        <ul class="toc-footer">
+            <li></li>
+        </ul>
+    </div>
+    <div class="page-wrapper">
+      <div class="dark-box"></div>
+      <div class="content">
+        <h1 id="introduction">Introduction</h1>
+
+<p>Welcome to the Do! API. Do! is a Bucketlist Service that empowers you to keep track of those important things you need to get done in your lifetime. Whether you want to see Paris, climb Everest, learn the piano, start a charity or write a will, Do! helps you keep track and live your dreams while you are alive.</p>
+
+<p>You can manage your bucketlists through any app or device combination which you authorize. Do! integration is seamless with any app, giving you a highly customisable and perhaps familiar experience. </p>
+
+<p>This documentation defines the ground rules of engagement with the Do! API in an easily consumable manner. You can checkout our <a href="https://github.com/andela-megwali/do">GitHub</a> repository if you want to contribute or raise an issue. Before you kick the bucket, Do!</p>
+
+<h1 id="functions-and-features">Functions and Features</h1>
+
+<p>Below are things you can do with Do! API</p>
+
+<ul>
+<li>Create a Do! account</li>
+<li>Create and manage bucketlists</li>
+<li>Create items in your bucketlists</li>
+<li>Track items that have or have not been done/accomplished</li>
+<li>Search for bucketlist or bucketlist items by name</li>
+<li>Paginate and limit search queries at will</li>
+<li>No unauthorized access to your bucketlist</li>
+<li>Integrates seamlessly with any app</li>
+<li>Simultaneous access to your account from all your authorized apps / devices</li>
+<li>Terminate all active access to your bucketlist with one request</li>
+</ul>
+
+<h2 id="do-endpoints">Do! Endpoints</h2>
+
+<p>Do! Endpoint data is returned in JSON format. Whenever a request is made to an endpoint that does not exist, we do our best to handle such scenairos by returning a friendly error message. Below is a list of available endpoints and their corresponding access rights:</p>
+
+<table><thead>
+<tr>
+<th>Verb</th>
+<th>URI</th>
+<th>Functionality</th>
+<th>Public Access</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>POST</td>
+<td>/users</td>
+<td>Creates a new user / account</td>
+<td>TRUE</td>
+</tr>
+<tr>
+<td>POST</td>
+<td>/auth/login</td>
+<td>Logs a user in an assigns an authentication token</td>
+<td>TRUE</td>
+</tr>
+<tr>
+<td>GET</td>
+<td>/auth/logout</td>
+<td>Logs a user out off all active authorized API sessions</td>
+<td>FALSE</td>
+</tr>
+<tr>
+<td>GET</td>
+<td>/users/x</td>
+<td>Get your user profile (where x is any number)</td>
+<td>FALSE</td>
+</tr>
+<tr>
+<td>POST</td>
+<td>/api/v1/bucketlists</td>
+<td>Create a new bucketlist</td>
+<td>FALSE</td>
+</tr>
+<tr>
+<td>GET</td>
+<td>/api/v1/bucketlists</td>
+<td>List all the created bucketlists</td>
+<td>FALSE</td>
+</tr>
+<tr>
+<td>GET</td>
+<td>/api/v1/bucketlists/:id</td>
+<td>Get a single bucketlist</td>
+<td>FALSE</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td>/api/v1/bucketlists/:id</td>
+<td>Update the selected bucketlist</td>
+<td>FALSE</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td>/api/v1/bucketlists/:id</td>
+<td>Delete the selected bucketlist</td>
+<td>FALSE</td>
+</tr>
+<tr>
+<td>POST</td>
+<td>/bucketlists/:bucketlist_id/items</td>
+<td>Creates a new item in the selected bucketlist</td>
+<td>FALSE</td>
+</tr>
+<tr>
+<td>GET</td>
+<td>/bucketlists/:bucketlist_id/items</td>
+<td>Lists all items in the selected bucketlist</td>
+<td>FALSE</td>
+</tr>
+<tr>
+<td>GET</td>
+<td>/bucketlists/:bucketlist_id/items/:id</td>
+<td>Fetches a single bucketlist Item</td>
+<td>FALSE</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td>/bucketlists/:bucketlist_id/items/:id</td>
+<td>Updates a selected bucketlist item</td>
+<td>FALSE</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td>/bucketlists/:bucketlist_id/items/:id</td>
+<td>Deletes an item in a bucketlist</td>
+<td>FALSE</td>
+</tr>
+</tbody></table>
+
+<h1 id="getting-started">Getting Started</h1>
+
+<blockquote>
+<p>To create a new Do! user account</p>
+</blockquote>
+<pre class="highlight shell"><code>curl -d <span class="s1">'user[firstname]=Mandy&amp;user[lastname]=Patra&amp;user[email]=we@me.com&amp;
+user[password]=asdfghj'</span> https://do-bucketlist.herokuapp.com/users
+</code></pre>
+<pre class="highlight ruby"><code><span class="n">https</span><span class="ss">:/</span><span class="o">/</span><span class="k">do</span><span class="o">-</span><span class="n">bucketlist</span><span class="p">.</span><span class="nf">herokuapp</span><span class="p">.</span><span class="nf">com</span><span class="o">/</span><span class="n">users?user</span><span class="p">[</span><span class="n">firstname</span><span class="p">]</span><span class="o">=</span><span class="no">Ingrid</span><span class="o">&amp;</span>
+<span class="n">user</span><span class="p">[</span><span class="n">lastname</span><span class="p">]</span><span class="o">=</span><span class="no">Mak</span><span class="o">&amp;</span><span class="n">user</span><span class="p">[</span><span class="n">email</span><span class="p">]</span><span class="o">=</span><span class="n">ex</span><span class="vi">@ex</span><span class="p">.</span><span class="nf">com</span><span class="o">&amp;</span><span class="n">user</span><span class="p">[</span><span class="n">password</span><span class="p">]</span><span class="o">=</span><span class="n">password</span>
+</code></pre>
+
+<blockquote>
+<p>This should return a JSON response</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w"> 
+  </span><span class="nt">"id"</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"firstname"</span><span class="p">:</span><span class="s2">"Mandy"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"lastname"</span><span class="p">:</span><span class="s2">"Patra"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"email"</span><span class="p">:</span><span class="s2">"we@me.com"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"date_modified"</span><span class="p">:</span><span class="s2">"XXXX-XX-XX 12:41:18"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"user_message"</span><span class="p">:</span><span class="s2">"Some Message"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<h3 id="create-user-account">Create User Account</h3>
+
+<p>Create a new user account to get started on Do! Simply send a request to the appropriate endpoint as shown:</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">POST http://do-bucketlist.herokuapp.com/users</code></p>
+
+<h3 id="query-parameters">Query Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>user[firstname]</td>
+<td>Your firstname</td>
+</tr>
+<tr>
+<td>user[lastname]</td>
+<td>Your firstname</td>
+</tr>
+<tr>
+<td>user[email]</td>
+<td>Your email</td>
+</tr>
+<tr>
+<td>user[password]</td>
+<td>Your password</td>
+</tr>
+</tbody></table>
+
+<h1 id="authentication">Authentication</h1>
+
+<h2 id="login">Login</h2>
+
+<p>To create, manage or interact with your bucketlist, you need to be signed in.</p>
+
+<blockquote>
+<p>To login and get an authentication token</p>
+</blockquote>
+<pre class="highlight shell"><code>curl -d <span class="s1">'user[email]=we@me.com&amp;user[password]=asdfghj'</span> https://do-bucketlist.herokuapp.com/auth/login
+</code></pre>
+<pre class="highlight ruby"><code><span class="n">https</span><span class="ss">:/</span><span class="o">/</span><span class="k">do</span><span class="o">-</span><span class="n">bucketlist</span><span class="p">.</span><span class="nf">herokuapp</span><span class="p">.</span><span class="nf">com</span><span class="o">/</span><span class="n">auth</span><span class="o">/</span><span class="n">login?user</span><span class="p">[</span><span class="n">email</span><span class="p">]</span><span class="o">=</span><span class="n">we</span><span class="vi">@me</span><span class="p">.</span><span class="nf">com</span><span class="o">&amp;</span>
+<span class="n">user</span><span class="p">[</span><span class="n">password</span><span class="p">]</span><span class="o">=</span><span class="n">asdfghj</span>
+</code></pre>
+
+<blockquote>
+<p>This should return a JSON authentication token</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w"> 
+  </span><span class="nt">"auth_token"</span><span class="p">:</span><span class="s2">"Some12344AuthenTICATIOn78890toKEn"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">POST https://do-bucketlist.herokuapp.com/auth/login</code></p>
+
+<h3 id="query-parameters">Query Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>user[email]</td>
+<td>Your email</td>
+</tr>
+<tr>
+<td>user[password]</td>
+<td>Your password</td>
+</tr>
+</tbody></table>
+
+<p>Do! expects that the API authentication key you received is included in all API requests in a header that looks somewhat like one of these:</p>
+
+<p><code class="prettyprint">{ &quot;Authorization&quot; =&gt; Some12344AuthenTICATIOn78890toKEn }</code></p>
+
+<p><code class="prettyprint">Authorization: Some12344AuthenTICATIOn78890toKEn</code></p>
+
+<aside class="notice">
+The authentication token has an expiry period of two (2) hours after which you will need to login again for a new token
+</aside>
+
+<aside class="success">
+You can login on multiple devices and via multiple apps. Each app/device would receive an API authentication token.
+</aside>
+
+<aside class="warning">For security reasons, failure to add your authentication token to your requests would result in automatic denial of all such requests</aside>
+
+<h2 id="logout">Logout</h2>
+
+<blockquote>
+<p>To logout of all active sessions</p>
+</blockquote>
+<pre class="highlight shell"><code>curl -H <span class="s1">'Authorization: Some12344AuthenTICATIOn78890toKEn'</span> https://do-bucketlist.herokuapp.com/auth/login/auth/logout
+</code></pre>
+<pre class="highlight ruby"><code><span class="n">https</span><span class="ss">:/</span><span class="o">/</span><span class="k">do</span><span class="o">-</span><span class="n">bucketlist</span><span class="p">.</span><span class="nf">herokuapp</span><span class="p">.</span><span class="nf">com</span><span class="o">/</span><span class="n">auth</span><span class="o">/</span><span class="n">logout</span>
+</code></pre>
+
+<blockquote>
+<p>This should return a JSON logout message</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w"> 
+  </span><span class="nt">"message"</span><span class="p">:</span><span class="s2">"User logged out of all active sessions"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>While tokens are valid for 2 hours, you may want to invalidate all your active tokens when you are done interacting with your account.</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">GET https://do-bucketlist.herokuapp.com/auth/logout</code></p>
+
+<h3 id="query-parameters">Query Parameters</h3>
+
+<p>none</p>
+
+<aside class="notice">
+This action invalidates all your active tokens on all your devices / apps. You would need to login again if you want to interact with your account / bucketlist again. 
+</aside>
+
+<h1 id="bucketlists">Bucketlists</h1>
+
+<h2 id="creating-a-bucketlist">Creating a Bucketlist</h2>
+
+<blockquote>
+<p>To create a new bucketlist</p>
+</blockquote>
+<pre class="highlight shell"><code>curl -H <span class="s1">'Authorization: Some12344AuthenTICATIOn78890toKEn'</span> 
+-d <span class="s1">'bucketlist[name]=AnewBucketlist'</span> 
+https://do-bucketlist.herokuapp.com/api/v1/bucketlists
+</code></pre>
+<pre class="highlight ruby"><code><span class="n">https</span><span class="ss">:/</span><span class="o">/</span><span class="k">do</span><span class="o">-</span><span class="n">bucketlist</span><span class="p">.</span><span class="nf">herokuapp</span><span class="p">.</span><span class="nf">com</span><span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="n">bucketlists?</span>
+<span class="n">bucketlist</span><span class="p">[</span><span class="nb">name</span><span class="p">]</span><span class="o">=</span><span class="no">AnewBucketlist</span>
+</code></pre>
+
+<blockquote>
+<p>This should return a JSON response like this:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w"> 
+  </span><span class="nt">"id"</span><span class="p">:</span><span class="mi">29</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"name"</span><span class="p">:</span><span class="s2">"AnewThree"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"items"</span><span class="p">:[],</span><span class="w">
+  </span><span class="nt">"date_created"</span><span class="p">:</span><span class="s2">"XXXX-XX-XX 16:32:32"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"date_modified"</span><span class="p">:</span><span class="s2">"XXXX-XX-XX 16:32:32"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"created_by"</span><span class="p">:</span><span class="s2">"Mandy"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">POST https://do-bucketlist.herokuapp.com/api/v1/bucketlists</code></p>
+
+<h3 id="query-parameters">Query Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>bucketlist[name]</td>
+<td>Desired name for your bucketlist</td>
+</tr>
+</tbody></table>
+
+<aside class="notice">
+Your new bucketlist currently has no items in it. We&rsquo;ll learn how to add items to a bucketlist shortly.
+</aside>
+
+<h2 id="listing-your-bucketlists">Listing your bucketlists</h2>
+
+<blockquote>
+<p>To view a list of all your bucketlists</p>
+</blockquote>
+<pre class="highlight shell"><code>curl -H <span class="s1">'Authorization: Some12344AuthenTICATIOn78890toKEn'</span> 
+https://do-bucketlist.herokuapp.com/api/v1/bucketlists
+</code></pre>
+<pre class="highlight ruby"><code><span class="n">https</span><span class="ss">:/</span><span class="o">/</span><span class="k">do</span><span class="o">-</span><span class="n">bucketlist</span><span class="p">.</span><span class="nf">herokuapp</span><span class="p">.</span><span class="nf">com</span><span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="n">bucketlists</span>
+
+<span class="n">with</span> <span class="n">pagination</span>
+
+<span class="n">https</span><span class="ss">:/</span><span class="o">/</span><span class="k">do</span><span class="o">-</span><span class="n">bucketlist</span><span class="p">.</span><span class="nf">herokuapp</span><span class="p">.</span><span class="nf">com</span><span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="n">bucketlists</span><span class="o">/</span><span class="n">page</span><span class="o">=</span><span class="mi">1</span><span class="o">&amp;</span><span class="n">limit</span><span class="o">=</span><span class="mi">10</span>
+
+</code></pre>
+
+<blockquote>
+<p>This should return a JSON response somewhat like this:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"name"</span><span class="p">:</span><span class="s2">"AnewOne"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"items"</span><span class="p">:[</span><span class="w">
+              </span><span class="p">{</span><span class="w"> 
+                </span><span class="nt">"id"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"name"</span><span class="p">:</span><span class="s2">"Go Sky Diving"</span><span class="p">,</span><span class="w">  
+                </span><span class="nt">"date_created"</span><span class="p">:</span><span class="s2">"XXXX-XX-XX 16:32:32"</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"date_modified"</span><span class="p">:</span><span class="s2">"XXXX-XX-XX 16:32:32"</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"done"</span><span class="p">:</span><span class="err">False</span><span class="w">
+              </span><span class="p">}</span><span class="w">
+            </span><span class="p">],</span><span class="w">
+    </span><span class="nt">"date_created"</span><span class="p">:</span><span class="s2">"XXXX-XX-XX 16:32:32"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"date_modified"</span><span class="p">:</span><span class="s2">"XXXX-XX-XX 16:32:32"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"created_by"</span><span class="p">:</span><span class="s2">"Mandy"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"name"</span><span class="p">:</span><span class="s2">"AnewTwo"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"items"</span><span class="p">:[</span><span class="w">
+              </span><span class="p">{</span><span class="w"> 
+                </span><span class="nt">"id"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"name"</span><span class="p">:</span><span class="s2">"Find Liam Neeson"</span><span class="p">,</span><span class="w">  
+                </span><span class="nt">"date_created"</span><span class="p">:</span><span class="s2">"XXXX-XX-XX 16:32:32"</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"date_modified"</span><span class="p">:</span><span class="s2">"XXXX-XX-XX 16:32:32"</span><span class="p">,</span><span class="w">
+                </span><span class="nt">"done"</span><span class="p">:</span><span class="err">False</span><span class="w">
+              </span><span class="p">}</span><span class="w">
+            </span><span class="p">],</span><span class="w">
+    </span><span class="nt">"date_created"</span><span class="p">:</span><span class="s2">"XXXX-XX-XX 16:32:32"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"date_modified"</span><span class="p">:</span><span class="s2">"XXXX-XX-XX 16:32:32"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"created_by"</span><span class="p">:</span><span class="s2">"Mandy"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+
+<blockquote>
+<p>Note that items have already been populated.</p>
+</blockquote>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">GET https://do-bucketlist.herokuapp.com/api/v1/bucketlists</code></p>
+
+<h3 id="http-request-with-pagination-optional">HTTP Request with pagination (optional)</h3>
+
+<p><code class="prettyprint">GET https://do-bucketlist.herokuapp.com/api/v1/bucketlists/page=2&amp;limit=10</code></p>
+
+<h3 id="expected-result">Expected result</h3>
+
+<p><code class="prettyprint">10 bucketlist records belonging to the logged in user starting from the 11th gets returned</code></p>
+
+<h3 id="query-parameters-with-pagination-optional">Query Parameters with pagination (Optional)</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>limit</td>
+<td>This limits the number of bucketlists returned per request</td>
+</tr>
+<tr>
+<td>page</td>
+<td>This offsets the returned result to the desired page requested</td>
+</tr>
+</tbody></table>
+
+<aside class="notice">
+The default result per request is the first 20 Bucketlists or Items. This takes effect if you do not specify any pagination parameters. Specifying parameters helps you customise or/and filter the results as desired.
+</aside>
+
+<aside class="success">
+The maximum number of Bucketlists or Items you can request per page is 100. If you specify a limit that is greater than 100, we would only return 100 results that match your parameter filter. That&rsquo;s how we Do!
+</aside>
+
+<h2 id="search-for-bucketlists-by-name">Search for bucketlists by name</h2>
+
+<blockquote>
+<p>To find a bucketlist by name:</p>
+</blockquote>
+<pre class="highlight shell"><code>curl -H <span class="s1">'Authorization: Some12344AuthenTICATIOn78890toKEn'</span> 
+https://do-bucketlist.herokuapp.com/api/v1/bucketlists?q<span class="o">=</span>Anew
+</code></pre>
+<pre class="highlight ruby"><code><span class="n">https</span><span class="ss">:/</span><span class="o">/</span><span class="k">do</span><span class="o">-</span><span class="n">bucketlist</span><span class="p">.</span><span class="nf">herokuapp</span><span class="p">.</span><span class="nf">com</span><span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="n">bucketlists?q</span><span class="o">=</span><span class="no">Anew</span>
+</code></pre>
+
+<blockquote>
+<p>This should return a JSON response like this:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"name"</span><span class="p">:</span><span class="s2">"AnewOne"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"items"</span><span class="p">:[],</span><span class="w">
+    </span><span class="nt">"date_created"</span><span class="p">:</span><span class="s2">"XXXX-XX-XX 16:32:32"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"date_modified"</span><span class="p">:</span><span class="s2">"XXXX-XX-XX 16:32:32"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"created_by"</span><span class="p">:</span><span class="s2">"Mandy"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+
+<p>We do not expect you (or your app) to remember all the id numbers of your bucketlists. To find or filter your bucketlists by name, simply add the query filter parameter (q) along with the bucketlist name as shown. You can give the name in full or just a part of the name.
+This would return all your bucketlists matching that name or that have your query string in their name.</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">GET https://do-bucketlist.herokuapp.com/api/v1/bucketlists?q=somebucketlist</code></p>
+
+<h3 id="query-parameters">Query Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>q</td>
+<td>This filters your bucketlists by name using the query string parameter</td>
+</tr>
+</tbody></table>
+
+<aside class="success">
+Do! you know? You can also specify limit and page parameters as previously described to further customise your search results.
+</aside>
+
+<h2 id="view-a-single-bucketlist">View a single bucketlist</h2>
+
+<blockquote>
+<p>To view a single bucketlist with id: 1</p>
+</blockquote>
+<pre class="highlight shell"><code>curl -H <span class="s1">'Authorization: Some12344AuthenTICATIOn78890toKEn'</span> 
+https://do-bucketlist.herokuapp.com/api/v1/bucketlists/1
+</code></pre>
+<pre class="highlight ruby"><code><span class="n">https</span><span class="ss">:/</span><span class="o">/</span><span class="k">do</span><span class="o">-</span><span class="n">bucketlist</span><span class="p">.</span><span class="nf">herokuapp</span><span class="p">.</span><span class="nf">com</span><span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="n">bucketlists</span><span class="o">/</span><span class="mi">1</span>
+</code></pre>
+
+<blockquote>
+<p>This should return a JSON response somewhat like this:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"id"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"name"</span><span class="p">:</span><span class="s2">"AnewOne"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"items"</span><span class="p">:[</span><span class="w">
+            </span><span class="p">{</span><span class="w"> 
+              </span><span class="nt">"id"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="w">
+              </span><span class="nt">"name"</span><span class="p">:</span><span class="s2">"Go Sky Diving"</span><span class="p">,</span><span class="w">  
+              </span><span class="nt">"date_created"</span><span class="p">:</span><span class="s2">"XXXX-XX-XX 16:32:32"</span><span class="p">,</span><span class="w">
+              </span><span class="nt">"date_modified"</span><span class="p">:</span><span class="s2">"XXXX-XX-XX 16:32:32"</span><span class="p">,</span><span class="w">
+              </span><span class="nt">"done"</span><span class="p">:</span><span class="err">False</span><span class="w">
+            </span><span class="p">}</span><span class="w">
+          </span><span class="p">],</span><span class="w">
+  </span><span class="nt">"date_created"</span><span class="p">:</span><span class="s2">"XXXX-XX-XX 16:32:32"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"date_modified"</span><span class="p">:</span><span class="s2">"XXXX-XX-XX 16:32:32"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"created_by"</span><span class="p">:</span><span class="s2">"Mandy"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">GET https://do-bucketlist.herokuapp.com/api/v1/bucketlists/1</code></p>
+
+<h3 id="query-parameters">Query Parameters</h3>
+
+<p>none</p>
+
+<aside class="warning">
+Only requests with valid bucketlist id owned by you will be processed. If you are not sure of the bucketlist id, please use the &ldquo;search by name&rdquo; feature described above instead.
+</aside>
+
+<h2 id="update-a-bucketlist">Update a bucketlist</h2>
+
+<blockquote>
+<p>To update a single bucketlist with id: 1</p>
+</blockquote>
+<pre class="highlight shell"><code>curl -H <span class="s1">'Authorization: Some12344AuthenTICATIOn78890toKEn'</span> -X PUT 
+-d <span class="s2">"bucketlist[name]=Changed"</span> http://localhost:3000/api/v1/bucketlists/1
+</code></pre>
+<pre class="highlight ruby"><code><span class="n">https</span><span class="ss">:/</span><span class="o">/</span><span class="k">do</span><span class="o">-</span><span class="n">bucketlist</span><span class="p">.</span><span class="nf">herokuapp</span><span class="p">.</span><span class="nf">com</span><span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="n">bucketlists</span><span class="o">/</span><span class="mi">1</span>
+</code></pre>
+
+<blockquote>
+<p>This should return a JSON response somewhat like this:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"id"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"name"</span><span class="p">:</span><span class="s2">"Changed"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"items"</span><span class="p">:[</span><span class="w">
+            </span><span class="p">{</span><span class="w"> 
+              </span><span class="nt">"id"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="w">
+              </span><span class="nt">"name"</span><span class="p">:</span><span class="s2">"Go Sky Diving"</span><span class="p">,</span><span class="w">  
+              </span><span class="nt">"date_created"</span><span class="p">:</span><span class="s2">"XXXX-XX-XX 16:32:32"</span><span class="p">,</span><span class="w">
+              </span><span class="nt">"date_modified"</span><span class="p">:</span><span class="s2">"XXXX-XX-XX 16:32:32"</span><span class="p">,</span><span class="w">
+              </span><span class="nt">"done"</span><span class="p">:</span><span class="err">False</span><span class="w">
+            </span><span class="p">}</span><span class="w">
+          </span><span class="p">],</span><span class="w">
+  </span><span class="nt">"date_created"</span><span class="p">:</span><span class="s2">"XXXX-XX-XX 16:32:32"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"date_modified"</span><span class="p">:</span><span class="s2">"XXXX-XX-XX 16:32:32"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"created_by"</span><span class="p">:</span><span class="s2">"Mandy"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>If you need to update or change the details (i.e. the name) of your bucketlist, then by all means Do!</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">PUT https://do-bucketlist.herokuapp.com/api/v1/bucketlists/1</code></p>
+
+<h3 id="query-parameters">Query Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>bucketlist[name]</td>
+<td>Desired name for your bucketlist</td>
+</tr>
+</tbody></table>
+
+<h2 id="delete-a-bucketlist">Delete a bucketlist</h2>
+
+<blockquote>
+<p>To delete a bucketlist with id: 1</p>
+</blockquote>
+<pre class="highlight shell"><code>curl -H <span class="s1">'Authorization: Some12344AuthenTICATIOn78890toKEn'</span> -X DELETE 
+ http://localhost:3000/api/v1/bucketlists/1
+</code></pre>
+<pre class="highlight ruby"><code><span class="n">https</span><span class="ss">:/</span><span class="o">/</span><span class="k">do</span><span class="o">-</span><span class="n">bucketlist</span><span class="p">.</span><span class="nf">herokuapp</span><span class="p">.</span><span class="nf">com</span><span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="n">bucketlists</span><span class="o">/</span><span class="mi">1</span>
+</code></pre>
+
+<blockquote>
+<p>This should return a JSON response somewhat like this:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w"> </span><span class="nt">"message"</span><span class="p">:</span><span class="s2">"Bucketlist deleted"</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>If you feel a bucketlist is not worth pursuing anymore and you want to delete it, then just Do! it. No questions asked.</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">DELETE https://do-bucketlist.herokuapp.com/api/v1/bucketlists/1</code></p>
+
+<h3 id="query-parameters">Query Parameters</h3>
+
+<p>none</p>
+
+<aside class="warning">
+Once you delete a bucketlist that you own, it&rsquo;s gone, forever, along with all the items created under it. We do not keep any backups whatsoever because we respect that you no longer want the deleted buckelist associated with you. Please use this request/command with caution.
+If you are not sure, don&rsquo;t Do! this one.
+</aside>
+
+<aside class="success">
+If you are not totally sure about keeping a bucketlist, perhaps because you are waiting for a trigger event; you can create another bucketlist to serve as a reminder to delete the marked bucketlist if/when such event occurs :)
+</aside>
+
+<h1 id="bucketlist-items">Bucketlist Items</h1>
+
+<h2 id="creating-a-bucketlist-item">Creating a Bucketlist Item</h2>
+
+<blockquote>
+<p>To create a new bucketlist item for a bucketlist with id: 1</p>
+</blockquote>
+<pre class="highlight shell"><code>curl -H <span class="s1">'Authorization: Some12344AuthenTICATIOn78890toKEn'</span> 
+-d <span class="s1">'item[name]=AnewItem&amp;item[done]=false'</span> 
+https://do-bucketlist.herokuapp.com/api/v1/bucketlists/1/items
+</code></pre>
+<pre class="highlight ruby"><code><span class="n">https</span><span class="ss">:/</span><span class="o">/</span><span class="k">do</span><span class="o">-</span><span class="n">bucketlist</span><span class="p">.</span><span class="nf">herokuapp</span><span class="p">.</span><span class="nf">com</span><span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="n">bucketlists</span><span class="o">/</span><span class="mi">1</span><span class="o">/</span><span class="n">items?</span>
+<span class="n">item</span><span class="p">[</span><span class="nb">name</span><span class="p">]</span><span class="o">=</span><span class="no">AnewItem</span><span class="o">&amp;</span><span class="n">item</span><span class="p">[</span><span class="n">done</span><span class="p">]</span><span class="o">=</span><span class="kp">false</span>
+</code></pre>
+
+<blockquote>
+<p>This should return a JSON response like this:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w"> 
+  </span><span class="nt">"id"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"name"</span><span class="p">:</span><span class="s2">"AnewItem"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"date_created"</span><span class="p">:</span><span class="s2">"XXXX-XX-XX 16:32:32"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"date_modified"</span><span class="p">:</span><span class="s2">"XXXX-XX-XX 16:32:32"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"done"</span><span class="p">:</span><span class="kc">false</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">POST https://do-bucketlist.herokuapp.com/api/v1/bucketlists/1/items</code></p>
+
+<h3 id="query-parameters">Query Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>item[name]</td>
+<td>Desired name for your bucketlist item</td>
+</tr>
+<tr>
+<td>item[done]</td>
+<td>Optional field (True or False)</td>
+</tr>
+</tbody></table>
+
+<aside class="notice">
+The optional item field (done) is false by default if left blank
+</aside>
+
+<h2 id="listing-your-bucketlist-items">Listing your bucketlist items</h2>
+
+<blockquote>
+<p>To view a list of all items in one of your bucketlists with id: 1</p>
+</blockquote>
+<pre class="highlight shell"><code>curl -H <span class="s1">'Authorization: Some12344AuthenTICATIOn78890toKEn'</span> 
+https://do-bucketlist.herokuapp.com/api/v1/bucketlists/1/items
+</code></pre>
+<pre class="highlight ruby"><code><span class="n">https</span><span class="ss">:/</span><span class="o">/</span><span class="k">do</span><span class="o">-</span><span class="n">bucketlist</span><span class="p">.</span><span class="nf">herokuapp</span><span class="p">.</span><span class="nf">com</span><span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="n">bucketlists</span><span class="o">/</span><span class="mi">1</span><span class="o">/</span><span class="n">items</span>
+
+<span class="n">with</span> <span class="n">pagination</span>
+
+<span class="n">https</span><span class="ss">:/</span><span class="o">/</span><span class="k">do</span><span class="o">-</span><span class="n">bucketlist</span><span class="p">.</span><span class="nf">herokuapp</span><span class="p">.</span><span class="nf">com</span><span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="n">bucketlists</span><span class="o">/</span><span class="mi">1</span><span class="o">/</span><span class="n">items</span><span class="o">/</span><span class="n">page</span><span class="o">=</span><span class="mi">1</span><span class="o">&amp;</span><span class="n">limit</span><span class="o">=</span><span class="mi">10</span>
+
+</code></pre>
+
+<blockquote>
+<p>This should return a JSON response somewhat like this:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w"> 
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"name"</span><span class="p">:</span><span class="s2">"Go Sky Diving"</span><span class="p">,</span><span class="w">  
+    </span><span class="nt">"date_created"</span><span class="p">:</span><span class="s2">"XXXX-XX-XX 16:32:32"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"date_modified"</span><span class="p">:</span><span class="s2">"XXXX-XX-XX 16:32:32"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"done"</span><span class="p">:</span><span class="err">False</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+  </span><span class="p">{</span><span class="w"> 
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"name"</span><span class="p">:</span><span class="s2">"Find Liam Neeson"</span><span class="p">,</span><span class="w">  
+    </span><span class="nt">"date_created"</span><span class="p">:</span><span class="s2">"XXXX-XX-XX 16:32:32"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"date_modified"</span><span class="p">:</span><span class="s2">"XXXX-XX-XX 16:32:32"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"done"</span><span class="p">:</span><span class="err">False</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+
+<blockquote>
+<p>Note that items have already been populated.</p>
+</blockquote>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">GET https://do-bucketlist.herokuapp.com/api/v1/bucketlists/1/items</code></p>
+
+<h3 id="http-request-with-pagination-optional">HTTP Request with pagination (optional)</h3>
+
+<p><code class="prettyprint">GET https://do-bucketlist.herokuapp.com/api/v1/bucketlists/1/items/page=2&amp;limit=10</code></p>
+
+<h3 id="expected-result">Expected result</h3>
+
+<p><code class="prettyprint">10 items from bucketlist with id: 1 belonging to the logged in user and starting from the 11th item</code></p>
+
+<h3 id="query-parameters-with-pagination-optional">Query Parameters with pagination (Optional)</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>limit</td>
+<td>This limits the number of items returned per request</td>
+</tr>
+<tr>
+<td>page</td>
+<td>This offsets the returned result to the desired page requested</td>
+</tr>
+</tbody></table>
+
+<aside class="notice">
+The default result per request is the first 20 Items. This takes effect if you do not specify any pagination parameters. Specifying parameters helps you customise or/and filter the results as desired.
+</aside>
+
+<aside class="success">
+The maximum number of Items you can request per page is 100. If you specify a limit that is greater than 100, we would only return 100 results that match your parameter filter. That&rsquo;s how we Do!
+</aside>
+
+<h2 id="view-a-single-item">View a single item</h2>
+
+<blockquote>
+<p>To view a single item with id: 1, from a bucketlist with id: 1</p>
+</blockquote>
+<pre class="highlight shell"><code>curl -H <span class="s1">'Authorization: Some12344AuthenTICATIOn78890toKEn'</span> 
+https://do-bucketlist.herokuapp.com/api/v1/bucketlists/1/items/1
+</code></pre>
+<pre class="highlight ruby"><code><span class="n">https</span><span class="ss">:/</span><span class="o">/</span><span class="k">do</span><span class="o">-</span><span class="n">bucketlist</span><span class="p">.</span><span class="nf">herokuapp</span><span class="p">.</span><span class="nf">com</span><span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="n">bucketlists</span><span class="o">/</span><span class="mi">1</span><span class="o">/</span><span class="n">items</span><span class="o">/</span><span class="mi">1</span>
+</code></pre>
+
+<blockquote>
+<p>This should return a JSON response somewhat like this:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w"> 
+  </span><span class="nt">"id"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"name"</span><span class="p">:</span><span class="s2">"Go Sky Diving"</span><span class="p">,</span><span class="w">  
+  </span><span class="nt">"date_created"</span><span class="p">:</span><span class="s2">"XXXX-XX-XX 16:32:32"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"date_modified"</span><span class="p">:</span><span class="s2">"XXXX-XX-XX 16:32:32"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"done"</span><span class="p">:</span><span class="err">False</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">GET https://do-bucketlist.herokuapp.com/api/v1/bucketlists/1/items/1</code></p>
+
+<h3 id="query-parameters">Query Parameters</h3>
+
+<p>none</p>
+
+<aside class="warning">
+Only requests with valid bucketlist id owned by you will be processed. If you are not sure of the bucketlist id, please use the &ldquo;search by name&rdquo; bucketlist feature described previously.
+</aside>
+
+<h2 id="update-a-bucketlist-item">Update a bucketlist item</h2>
+
+<blockquote>
+<p>To update a single item with id: 1, from a bucketlist with id: 1</p>
+</blockquote>
+<pre class="highlight shell"><code>curl -H <span class="s1">'Authorization: Some12344AuthenTICATIOn78890toKEn'</span> -X PUT 
+-d <span class="s2">"item[name]=Changed&amp;item[done]=true"</span> http://localhost:3000/api/v1/bucketlists/1/items/1
+</code></pre>
+<pre class="highlight ruby"><code><span class="n">https</span><span class="ss">:/</span><span class="o">/</span><span class="k">do</span><span class="o">-</span><span class="n">bucketlist</span><span class="p">.</span><span class="nf">herokuapp</span><span class="p">.</span><span class="nf">com</span><span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="n">bucketlists</span><span class="o">/</span><span class="mi">1</span><span class="o">/</span><span class="n">items</span><span class="o">/</span><span class="mi">1</span>
+</code></pre>
+
+<blockquote>
+<p>This should return a JSON response somewhat like this:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w"> 
+  </span><span class="nt">"id"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"name"</span><span class="p">:</span><span class="s2">"Changed"</span><span class="p">,</span><span class="w">  
+  </span><span class="nt">"date_created"</span><span class="p">:</span><span class="s2">"XXXX-XX-XX 16:32:32"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"date_modified"</span><span class="p">:</span><span class="s2">"XXXX-XX-XX 16:32:32"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"done"</span><span class="p">:</span><span class="kc">true</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>If you need to update or change the details (i.e. the name) of your bucketlist item, then by all means Do!</p>
+
+<aside class="success">
+Handy tip: Use the update item feature to check off bucketlist items as done by setting done to true. Now Do! get a drink and celebrate your achievements.
+</aside>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">PUT https://do-bucketlist.herokuapp.com/api/v1/bucketlists/1/items/1</code></p>
+
+<h3 id="query-parameters">Query Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>item[name]</td>
+<td>Desired name for your bucketlist item</td>
+</tr>
+<tr>
+<td>item[done]</td>
+<td>True or False</td>
+</tr>
+</tbody></table>
+
+<h2 id="delete-a-bucketlist-item">Delete a bucketlist item</h2>
+
+<blockquote>
+<p>To delete a single item with id: 1, from a bucketlist with id: 1</p>
+</blockquote>
+<pre class="highlight shell"><code>curl -H <span class="s1">'Authorization: Some12344AuthenTICATIOn78890toKEn'</span> -X DELETE 
+ http://localhost:3000/api/v1/bucketlists/1/items/1
+</code></pre>
+<pre class="highlight ruby"><code><span class="n">https</span><span class="ss">:/</span><span class="o">/</span><span class="k">do</span><span class="o">-</span><span class="n">bucketlist</span><span class="p">.</span><span class="nf">herokuapp</span><span class="p">.</span><span class="nf">com</span><span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="n">bucketlists</span><span class="o">/</span><span class="mi">1</span><span class="o">/</span><span class="n">items</span><span class="o">/</span><span class="mi">1</span>
+</code></pre>
+
+<blockquote>
+<p>This should return a JSON response somewhat like this:</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w"> </span><span class="nt">"message"</span><span class="p">:</span><span class="s2">"Item deleted"</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p>If you feel a bucketlist item is not worth pursuing anymore and you want to delete it, then just Do! it. No questions asked.</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">DELETE https://do-bucketlist.herokuapp.com/api/v1/bucketlists/1/items/1</code></p>
+
+<h3 id="query-parameters">Query Parameters</h3>
+
+<p>none</p>
+
+<aside class="warning">
+Once you delete a bucketlist item that you own, it&rsquo;s gone forever. We do not keep any backups whatsoever because we respect that you no longer want the deleted item associated with you. Please use this request/command with caution.
+If you are not sure, Do! the suggestion below.
+</aside>
+
+<aside class="success">
+If you are not totally sure about keeping a bucketlist item, perhaps because you are waiting for a trigger event; you can create another bucketlist item to serve as a reminder to delete the marked item if/when such event occurs :)
+</aside>
+
+          <h1 id="possible-errors">Possible Errors</h1>
+
+<aside class="warning">
+This is the error explanation section. Check here to identify the cause of any problems you may have encountered while using Do! API.
+</aside>
+
+<p>Do! API uses the following error codes:</p>
+
+<table><thead>
+<tr>
+<th>Error Code</th>
+<th>Meaning</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>400</td>
+<td>Bad Request &ndash; Your request sucks</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Unauthorized &ndash; Your API key is wrong, expired or tampered with</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Forbidden &ndash; The requested resource is not for you (hacking are we?)</td>
+</tr>
+<tr>
+<td>404</td>
+<td>Not Found &ndash; The specified request could not be found</td>
+</tr>
+<tr>
+<td>405</td>
+<td>Method Not Allowed &ndash; You tried to access a resource with an invalid method</td>
+</tr>
+<tr>
+<td>406</td>
+<td>Not Acceptable &ndash; You requested a format that isn&rsquo;t json</td>
+</tr>
+<tr>
+<td>410</td>
+<td>Gone &ndash; The requested resource has been removed from our servers</td>
+</tr>
+<tr>
+<td>418</td>
+<td>I&rsquo;m a teapot :)</td>
+</tr>
+<tr>
+<td>429</td>
+<td>Too Many Requests &ndash; You&rsquo;re requesting a lot. Do! not overwork yourself, slow down!</td>
+</tr>
+<tr>
+<td>500</td>
+<td>Internal Server Error &ndash; We had a problem with our server. Try again later.</td>
+</tr>
+<tr>
+<td>503</td>
+<td>Service Unavailable &ndash; We&rsquo;re temporarially offline for maintanance. Please try again later.</td>
+</tr>
+</tbody></table>
+
+<aside class="success">
+That&rsquo;s all folks, that&rsquo;s how you Do!
+</aside>
+
+      </div>
+      <div class="dark-box">
+          <div class="lang-selector">
+                <a href="#" data-language-name="shell">cURL</a>
+                <a href="#" data-language-name="ruby">Postman</a>
+          </div>
+      </div>
+    </div>
+  </body>
+</html>

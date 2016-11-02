@@ -12,6 +12,7 @@ module SerializerHelper
   end
 
   def user_message
-    "You can access your DO account with '#{object.email}' and your password"
+    "You can access your Do! account by logging in with '#{object.email}'"\
+    " and your password"
   end
 end

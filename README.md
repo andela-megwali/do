@@ -25,6 +25,8 @@ The API documentation can be accessed by clicking: [Do! Bucketlist](http://do-bu
 * Paginate and limit search queries at will
 * No unauthorized access to your bucketlist
 * Integrates seamlessly with any app
+* Simultaneous access to your account from all your authorized apps / devices
+* Terminate all active access to your bucketlist with one request
 
 ### Dependencies and Frameworks
 
@@ -42,19 +44,25 @@ Below is the list of available endpoints in the BucketList API. Some end points 
   </tr>
 
   <tr>
-    <td>POST /api/v1/users</td>
+    <td>POST /users</td>
     <td>Creates a new user</td>
     <td>TRUE</td>
   </tr>
 
   <tr>
-    <td>POST /api/v1/auth/login</td>
+    <td>GET /users/x</td>
+    <td>Get your user profile (where x is any number)</td>
+    <td>TRUE</td>
+  </tr>
+
+  <tr>
+    <td>POST /auth/login</td>
     <td>Logs a user in</td>
     <td>TRUE</td>
   </tr>
 
   <tr>
-    <td>GET /api/v1/auth/logout</td>
+    <td>GET /auth/logout</td>
     <td>Logs a user out off all active authorized apps</td>
     <td>FALSE</td>
   </tr>
