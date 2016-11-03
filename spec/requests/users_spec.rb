@@ -6,7 +6,7 @@ RSpec.describe "Users", type: :request do
   describe "POST #create" do
     context "with valid parameters" do
       it "creates a new user" do
-        post users_path, user: attributes_for(:user, :user2)
+        post users_path, attributes_for(:user, :user2)
         expect(response).to have_http_status(:success)
         expect(User.count).to eq 2
         expect(json_response[:firstname]).to eq "TJ"
@@ -16,7 +16,7 @@ RSpec.describe "Users", type: :request do
 
     context "with invalid parameters" do
       it "fails to create a new user" do
-        post users_path, user: { firstname: nil }
+        post users_path, firstname: nil
         expect(response).to have_http_status(:success)
         expect(User.count).to eq 1
         expect(json_response[:firstname]).to eq nil
@@ -30,7 +30,7 @@ RSpec.describe "Users", type: :request do
       it "updates selected user" do
         put(
           user_path(1),
-          { user: { firstname: "Taris", password: "1234567" } },
+          { firstname: "Taris", password: "1234567" },
           authorization_header(1)
         )
         expect(response).to have_http_status(:success)
@@ -42,7 +42,7 @@ RSpec.describe "Users", type: :request do
 
     context "with invalid parameters" do
       it "fails to update selected user" do
-        put user_path(1), { user: { firstname: nil } }, authorization_header(1)
+        put user_path(1), { firstname: nil }, authorization_header(1)
         expect(response).to have_http_status(:success)
         expect(User.first.firstname).to_not eq nil
         expect(json_response[:error]).to eq "User not updated, try again"

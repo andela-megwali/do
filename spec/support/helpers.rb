@@ -13,7 +13,7 @@ module Helpers
     def create_bucketlist
       post(
         bucketlists_path,
-        { bucketlist: attributes_for(:bucketlist) },
+        attributes_for(:bucketlist),
         authorization_header(1)
       )
     end
@@ -21,7 +21,7 @@ module Helpers
     def create_item
       post(
         items_path,
-        { item: attributes_for(:item) },
+        attributes_for(:item),
         authorization_header(1)
       )
     end

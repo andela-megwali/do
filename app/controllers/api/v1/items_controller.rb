@@ -39,7 +39,7 @@ module Api
       private
 
       def item_params
-        params.require(:item).permit(:name, :done)
+        params.permit(:name, :done)
       end
 
       def get_bucketlist_items

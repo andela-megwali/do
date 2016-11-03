@@ -51,7 +51,7 @@ RSpec.describe "Items", type: :request do
   describe "PUT #update" do
     context "with valid parameters" do
       it "updates selected item" do
-        put item_path, { item: { name: "Taris" } }, authorization_header(1)
+        put item_path, { name: "Taris" }, authorization_header(1)
         expect(response).to have_http_status(:success)
         expect(json_response[:name]).to eq "Taris"
         expect(Item.first.name).to eq "Taris"
@@ -61,7 +61,7 @@ RSpec.describe "Items", type: :request do
 
     context "with invalid parameters" do
       it "fails to update selected item" do
-        put item_path, { item: { name: nil } }, authorization_header(1)
+        put item_path, { name: nil }, authorization_header(1)
         expect(response).to have_http_status(:success)
         expect(Item.first.name).to_not eq nil
         expect(json_response[:name]).to_not eq "MyItems"

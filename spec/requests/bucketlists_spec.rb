@@ -56,7 +56,7 @@ RSpec.describe "Bucketlists", type: :request do
       it "updates selected bucketlist" do
         put(
           bucketlist_path,
-          { bucketlist: { name: "Tari" } },
+          { name: "Tari" },
           authorization_header(1)
         )
         expect(response).to have_http_status(:success)
@@ -71,7 +71,7 @@ RSpec.describe "Bucketlists", type: :request do
       it "fails to update selected bucketlist" do
         put(
           bucketlist_path,
-          { bucketlist: { name: nil } },
+          { name: nil },
           authorization_header(1)
         )
         expect(response).to have_http_status(:success)

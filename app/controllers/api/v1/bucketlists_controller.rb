@@ -10,7 +10,7 @@ module Api
         if @bucketlist.save
           render json: @bucketlist
         else
-          render json: { error: not_created_message }
+          render json: { error: not_created_message }, status: 201
         end
       end
 
@@ -48,7 +48,7 @@ module Api
       end
 
       def bucketlist_params
-        params.require(:bucketlist).permit(:name)
+        params.permit(:name)
       end
     end
   end

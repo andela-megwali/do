@@ -241,8 +241,8 @@
 <blockquote>
 <p>To create a new Do! user account</p>
 </blockquote>
-<pre class="highlight shell"><code>curl -d <span class="s1">'user[firstname]=Mandy&amp;user[lastname]=Patra&amp;user[email]=we@me.com&amp;
-user[password]=asdfghj'</span> https://do-bucketlist.herokuapp.com/users
+<pre class="highlight shell"><code>curl -d <span class="s1">'firstname=Mandy&amp;lastname=Patra&amp;email=we@me.com&amp;
+password=asdfghj'</span> https://do-bucketlist.herokuapp.com/users
 </code></pre>
 <pre class="highlight ruby"><code><span class="n">https</span><span class="ss">:/</span><span class="o">/</span><span class="k">do</span><span class="o">-</span><span class="n">bucketlist</span><span class="p">.</span><span class="nf">herokuapp</span><span class="p">.</span><span class="nf">com</span><span class="o">/</span><span class="n">users?user</span><span class="p">[</span><span class="n">firstname</span><span class="p">]</span><span class="o">=</span><span class="no">Ingrid</span><span class="o">&amp;</span>
 <span class="n">user</span><span class="p">[</span><span class="n">lastname</span><span class="p">]</span><span class="o">=</span><span class="no">Mak</span><span class="o">&amp;</span><span class="n">user</span><span class="p">[</span><span class="n">email</span><span class="p">]</span><span class="o">=</span><span class="n">ex</span><span class="vi">@ex</span><span class="p">.</span><span class="nf">com</span><span class="o">&amp;</span><span class="n">user</span><span class="p">[</span><span class="n">password</span><span class="p">]</span><span class="o">=</span><span class="n">password</span>
@@ -278,19 +278,19 @@ user[password]=asdfghj'</span> https://do-bucketlist.herokuapp.com/users
 </tr>
 </thead><tbody>
 <tr>
-<td>user[firstname]</td>
+<td>firstname</td>
 <td>Your firstname</td>
 </tr>
 <tr>
-<td>user[lastname]</td>
+<td>lastname</td>
 <td>Your firstname</td>
 </tr>
 <tr>
-<td>user[email]</td>
+<td>email</td>
 <td>Your email</td>
 </tr>
 <tr>
-<td>user[password]</td>
+<td>password</td>
 <td>Your password</td>
 </tr>
 </tbody></table>
@@ -304,7 +304,7 @@ user[password]=asdfghj'</span> https://do-bucketlist.herokuapp.com/users
 <blockquote>
 <p>To login and get an authentication token</p>
 </blockquote>
-<pre class="highlight shell"><code>curl -d <span class="s1">'user[email]=we@me.com&amp;user[password]=asdfghj'</span> https://do-bucketlist.herokuapp.com/auth/login
+<pre class="highlight shell"><code>curl -d <span class="s1">'email=we@me.com&amp;password=asdfghj'</span> https://do-bucketlist.herokuapp.com/auth/login
 </code></pre>
 <pre class="highlight ruby"><code><span class="n">https</span><span class="ss">:/</span><span class="o">/</span><span class="k">do</span><span class="o">-</span><span class="n">bucketlist</span><span class="p">.</span><span class="nf">herokuapp</span><span class="p">.</span><span class="nf">com</span><span class="o">/</span><span class="n">auth</span><span class="o">/</span><span class="n">login?user</span><span class="p">[</span><span class="n">email</span><span class="p">]</span><span class="o">=</span><span class="n">we</span><span class="vi">@me</span><span class="p">.</span><span class="nf">com</span><span class="o">&amp;</span>
 <span class="n">user</span><span class="p">[</span><span class="n">password</span><span class="p">]</span><span class="o">=</span><span class="n">asdfghj</span>
@@ -331,11 +331,11 @@ user[password]=asdfghj'</span> https://do-bucketlist.herokuapp.com/users
 </tr>
 </thead><tbody>
 <tr>
-<td>user[email]</td>
+<td>email</td>
 <td>Your email</td>
 </tr>
 <tr>
-<td>user[password]</td>
+<td>password</td>
 <td>Your password</td>
 </tr>
 </tbody></table>
@@ -396,7 +396,7 @@ This action invalidates all your active tokens on all your devices / apps. You w
 <p>To create a new bucketlist</p>
 </blockquote>
 <pre class="highlight shell"><code>curl -H <span class="s1">'Authorization: Some12344AuthenTICATIOn78890toKEn'</span> 
--d <span class="s1">'bucketlist[name]=AnewBucketlist'</span> 
+-d <span class="s1">'name=AnewBucketlist'</span> 
 https://do-bucketlist.herokuapp.com/api/v1/bucketlists
 </code></pre>
 <pre class="highlight ruby"><code><span class="n">https</span><span class="ss">:/</span><span class="o">/</span><span class="k">do</span><span class="o">-</span><span class="n">bucketlist</span><span class="p">.</span><span class="nf">herokuapp</span><span class="p">.</span><span class="nf">com</span><span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="n">bucketlists?</span>
@@ -429,7 +429,7 @@ https://do-bucketlist.herokuapp.com/api/v1/bucketlists
 </tr>
 </thead><tbody>
 <tr>
-<td>bucketlist[name]</td>
+<td>name</td>
 <td>Desired name for your bucketlist</td>
 </tr>
 </tbody></table>
@@ -636,7 +636,7 @@ Only requests with valid bucketlist id owned by you will be processed. If you ar
 <p>To update a single bucketlist with id: 1</p>
 </blockquote>
 <pre class="highlight shell"><code>curl -H <span class="s1">'Authorization: Some12344AuthenTICATIOn78890toKEn'</span> -X PUT 
--d <span class="s2">"bucketlist[name]=Changed"</span> http://localhost:3000/api/v1/bucketlists/1
+-d <span class="s2">"name=Changed"</span> http://localhost:3000/api/v1/bucketlists/1
 </code></pre>
 <pre class="highlight ruby"><code><span class="n">https</span><span class="ss">:/</span><span class="o">/</span><span class="k">do</span><span class="o">-</span><span class="n">bucketlist</span><span class="p">.</span><span class="nf">herokuapp</span><span class="p">.</span><span class="nf">com</span><span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="n">bucketlists</span><span class="o">/</span><span class="mi">1</span>
 </code></pre>
@@ -677,7 +677,7 @@ Only requests with valid bucketlist id owned by you will be processed. If you ar
 </tr>
 </thead><tbody>
 <tr>
-<td>bucketlist[name]</td>
+<td>name</td>
 <td>Desired name for your bucketlist</td>
 </tr>
 </tbody></table>
@@ -726,7 +726,7 @@ If you are not totally sure about keeping a bucketlist, perhaps because you are 
 <p>To create a new bucketlist item for a bucketlist with id: 1</p>
 </blockquote>
 <pre class="highlight shell"><code>curl -H <span class="s1">'Authorization: Some12344AuthenTICATIOn78890toKEn'</span> 
--d <span class="s1">'item[name]=AnewItem&amp;item[done]=false'</span> 
+-d <span class="s1">'name=AnewItem&amp;done=false'</span> 
 https://do-bucketlist.herokuapp.com/api/v1/bucketlists/1/items
 </code></pre>
 <pre class="highlight ruby"><code><span class="n">https</span><span class="ss">:/</span><span class="o">/</span><span class="k">do</span><span class="o">-</span><span class="n">bucketlist</span><span class="p">.</span><span class="nf">herokuapp</span><span class="p">.</span><span class="nf">com</span><span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="n">bucketlists</span><span class="o">/</span><span class="mi">1</span><span class="o">/</span><span class="n">items?</span>
@@ -758,11 +758,11 @@ https://do-bucketlist.herokuapp.com/api/v1/bucketlists/1/items
 </tr>
 </thead><tbody>
 <tr>
-<td>item[name]</td>
+<td>name</td>
 <td>Desired name for your bucketlist item</td>
 </tr>
 <tr>
-<td>item[done]</td>
+<td>done</td>
 <td>Optional field (True or False)</td>
 </tr>
 </tbody></table>
@@ -891,7 +891,7 @@ Only requests with valid bucketlist id owned by you will be processed. If you ar
 <p>To update a single item with id: 1, from a bucketlist with id: 1</p>
 </blockquote>
 <pre class="highlight shell"><code>curl -H <span class="s1">'Authorization: Some12344AuthenTICATIOn78890toKEn'</span> -X PUT 
--d <span class="s2">"item[name]=Changed&amp;item[done]=true"</span> http://localhost:3000/api/v1/bucketlists/1/items/1
+-d <span class="s2">"name=Changed&amp;done=true"</span> http://localhost:3000/api/v1/bucketlists/1/items/1
 </code></pre>
 <pre class="highlight ruby"><code><span class="n">https</span><span class="ss">:/</span><span class="o">/</span><span class="k">do</span><span class="o">-</span><span class="n">bucketlist</span><span class="p">.</span><span class="nf">herokuapp</span><span class="p">.</span><span class="nf">com</span><span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="n">bucketlists</span><span class="o">/</span><span class="mi">1</span><span class="o">/</span><span class="n">items</span><span class="o">/</span><span class="mi">1</span>
 </code></pre>
@@ -927,11 +927,11 @@ Handy tip: Use the update item feature to check off bucketlist items as done by 
 </tr>
 </thead><tbody>
 <tr>
-<td>item[name]</td>
+<td>name</td>
 <td>Desired name for your bucketlist item</td>
 </tr>
 <tr>
-<td>item[done]</td>
+<td>done</td>
 <td>True or False</td>
 </tr>
 </tbody></table>
