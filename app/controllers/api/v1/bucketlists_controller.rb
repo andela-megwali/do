@@ -10,7 +10,7 @@ module Api
         if @bucketlist.save
           render json: @bucketlist
         else
-          render json: { error: not_created_message }, status: 201
+          render json: { error: not_created_message }, status: 400
         end
       end
 
@@ -27,7 +27,7 @@ module Api
         if @bucketlist.update(bucketlist_params)
           render json: @bucketlist
         else
-          render json: { error: not_updated_message }
+          render json: { error: not_updated_message }, status: 400
         end
       end
 
@@ -44,7 +44,7 @@ module Api
 
       def set_bucketlist
         @bucketlist = @bucketlists.find_by(id: params[:id])
-        @bucketlist ||= { error: not_permitted_message }
+        @bucketlist ||= { error: not_permitted_message, status: 403 }
       end
 
       def bucketlist_params

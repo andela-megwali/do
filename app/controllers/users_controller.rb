@@ -7,7 +7,7 @@ class UsersController < ApplicationController
     if @user.save
       render json: @user
     else
-      render json: { error: not_created_message }
+      render json: { error: not_created_message }, status: 400
     end
   end
 
@@ -15,13 +15,12 @@ class UsersController < ApplicationController
     if @user.update(user_params)
       render json: @user
     else
-      render json: { error: not_updated_message }
+      render json: { error: not_updated_message }, status: 400
     end
   end
 
   def destroy
-    @user.destroy
-    render json: { message: delete_message }
+    render json: { message: delete_message } if @user.destroy
   end
 
   private
@@ -31,11 +30,6 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.permit(
-      :firstname,
-      :lastname,
-      :email,
-      :password
-    )
+    params.permit(:firstname, :lastname, :email, :password)
   end
 end

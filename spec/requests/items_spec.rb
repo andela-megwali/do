@@ -21,7 +21,7 @@ RSpec.describe "Items", type: :request do
     context "with invalid parameters" do
       it "fails to create a new item" do
         post items_path, { item: { name: nil } }, authorization_header(1)
-        expect(response).to have_http_status(:success)
+        expect(response).to have_http_status(400)
         expect(Item.count).to eq 1
         expect(json_response[:name]).to_not eq "MyItems"
         expect(json_response[:error]).to eq "Item not created, try again"
@@ -62,7 +62,7 @@ RSpec.describe "Items", type: :request do
     context "with invalid parameters" do
       it "fails to update selected item" do
         put item_path, { name: nil }, authorization_header(1)
-        expect(response).to have_http_status(:success)
+        expect(response).to have_http_status(400)
         expect(Item.first.name).to_not eq nil
         expect(json_response[:name]).to_not eq "MyItems"
         expect(json_response[:error]).to eq "Item not updated, try again"

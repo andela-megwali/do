@@ -24,7 +24,7 @@ RSpec.describe "Bucketlists", type: :request do
           { bucketlist: { name: nil } },
           authorization_header(1)
         )
-        expect(response).to have_http_status(:success)
+        expect(response).to have_http_status(400)
         expect(Bucketlist.count).to eq 1
         expect(json_response[:name]).to_not eq "MyBucketlist"
         expect(json_response[:error]).to eq "Bucketlist not created, try again"
@@ -74,7 +74,7 @@ RSpec.describe "Bucketlists", type: :request do
           { name: nil },
           authorization_header(1)
         )
-        expect(response).to have_http_status(:success)
+        expect(response).to have_http_status(400)
         expect(Bucketlist.first.name).to_not eq nil
         expect(Bucketlist.first.name).to eq "MyBucketlist"
         expect(json_response[:error]).to eq "Bucketlist not updated, try again"

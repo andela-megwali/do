@@ -10,7 +10,7 @@ module Api
         if @item.save
           render json: @item
         else
-          render json: { error: not_created_message }
+          render json: { error: not_created_message }, status: 400
         end
       end
 
@@ -27,7 +27,7 @@ module Api
         if @item.update(item_params)
           render json: @item
         else
-          render json: { error: not_updated_message }
+          render json: { error: not_updated_message }, status: 400
         end
       end
 
