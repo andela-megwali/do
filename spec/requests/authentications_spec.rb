@@ -5,7 +5,7 @@ RSpec.describe "Authentications", type: :request do
 
   describe "POST #login" do
     context "with valid login credentials" do
-      before { post auth_login_path, user: attributes_for(:user) }
+      before { post auth_login_path, attributes_for(:user) }
 
       it "assigns and renders a jwt authentication token" do
         expect(response).to have_http_status(200)
@@ -22,7 +22,7 @@ RSpec.describe "Authentications", type: :request do
 
     context "with invalid login credentials" do
       it "refuses user authorization" do
-        post auth_login_path, user: { email: nil }
+        post auth_login_path, email: nil
         expect(response).to have_http_status(401)
         expect(json_response[:auth_token]).to eq nil
         expect(json_response[:error]).to eq "Invalid Credentials Detected"
