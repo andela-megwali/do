@@ -12,11 +12,11 @@ RSpec.describe "Authentications", type: :request do
         expect(json_response[:auth_token]).to_not eq nil
       end
 
-      it "creates token with valid user_id and iss key" do
+      it "creates token with valid user_id and issue_number key" do
         expect(decoded_token).to have_key :user_id
         expect(decoded_token[:user_id]).to eq User.first.id
-        expect(decoded_token).to have_key :iss
-        expect(decoded_token[:iss]).to eq User.first.iss
+        expect(decoded_token).to have_key :issue_number
+        expect(decoded_token[:issue_number]).to eq User.first.issue_number
       end
     end
 
@@ -44,8 +44,8 @@ RSpec.describe "Authentications", type: :request do
         get auth_logout_path, {}, auth_header
         invalid_token = JsonWebToken.decode(auth_header["Authorization"])
         expect(invalid_token[:user_id]).to eq User.first.id
-        expect(invalid_token).to have_key :iss
-        expect(invalid_token[:iss]).to_not eq User.first.iss
+        expect(invalid_token).to have_key :issue_number
+        expect(invalid_token[:issue_number]).to_not eq User.first.issue_number
       end
     end
   end

@@ -6,11 +6,11 @@ class User < ActiveRecord::Base
   validates_uniqueness_of :email
   validates_presence_of :password, on: :create
 
-  before_save :generate_iss_number
+  before_save :generate_issue_number
 
   private
 
-  def generate_iss_number
-    self.iss = rand(100..999).to_s
+  def generate_issue_number
+    self.issue_number = rand(100..999).to_s
   end
 end

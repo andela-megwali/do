@@ -3,13 +3,16 @@ class AuthenticationController < ApplicationController
 
   def login
     return invalid_credentials_detected unless authenticate_user
-    payload = { user_id: authenticate_user.id, iss: authenticate_user.iss }
+    payload = {
+      user_id: authenticate_user.id,
+      issue_number: authenticate_user.issue_number
+    }
     user_token = JsonWebToken.encode(payload)
     render json: { auth_token: user_token }
   end
 
   def logout
-    if @current_user.update(iss: rand(100..999).to_s)
+    if @current_user.update(issue_number: rand(100..999).to_s)
       render json: { message: logout_message }
     end
   end

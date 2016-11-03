@@ -4,7 +4,7 @@ FactoryGirl.define do
     firstname "TJ"
     lastname  "Smith"
     email "ex@ex.com"
-    iss "123"
+    issue_number "123"
 
     trait(:user2) do
       email "we@we.com"

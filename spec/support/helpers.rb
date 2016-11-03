@@ -6,7 +6,10 @@ module Helpers
 
     def authorization_header(id)
       smith = User.find(id)
-      user_token = JsonWebToken.encode(user_id: smith.id, iss: smith.iss)
+      user_token = JsonWebToken.encode(
+        user_id: smith.id,
+        issue_number: smith.issue_number
+      )
       { "Authorization" => user_token }
     end
 
