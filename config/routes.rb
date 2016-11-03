@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   post "/auth/login", to: "authentication#login"
   get "/auth/logout", to: "authentication#logout"
 
-  resources :users, except: [:new, :edit, :index]
+  resources :users, except: [:new, :edit, :index, :show]
   namespace :api do
     namespace :v1 do
       resources :bucketlists, except: [:new, :edit] do

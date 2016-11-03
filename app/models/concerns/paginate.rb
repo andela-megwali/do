@@ -1,6 +1,6 @@
 module Paginate
   def paginate(limit_query, page_query)
-    limit(paginate_limit(limit_query)).
+    limit(paginate_limit(limit_query)).order("id ASC").
       offset(paginate_page(limit_query, page_query))
   end
 

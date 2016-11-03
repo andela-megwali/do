@@ -50,12 +50,6 @@ Below is the list of available endpoints in the BucketList API. Some end points 
   </tr>
 
   <tr>
-    <td>GET /users/x</td>
-    <td>Get your user profile (where x is any number)</td>
-    <td>TRUE</td>
-  </tr>
-
-  <tr>
     <td>POST /auth/login</td>
     <td>Logs a user in</td>
     <td>TRUE</td>

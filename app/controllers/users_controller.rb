@@ -19,10 +19,6 @@ class UsersController < ApplicationController
     end
   end
 
-  def show
-    render json: @user
-  end
-
   def destroy
     @user.destroy
     render json: { message: delete_message }

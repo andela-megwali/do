@@ -53,7 +53,7 @@ RSpec.describe "Authentications", type: :request do
   describe "prevent unauthorized use of authenticated tokens" do
     context "with a tampered token" do
       it "rejects all token requests" do
-        get user_path(1), {}, tampered_token
+        delete user_path(1), {}, tampered_token
         expect(response).to have_http_status(:unauthorized)
         expect(json_response[:error]).to eq "Not Authorized"
       end

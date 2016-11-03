@@ -25,26 +25,6 @@ RSpec.describe "Users", type: :request do
     end
   end
 
-  describe "GET #show" do
-    context "when user is authorized" do
-      it "renders the selected user" do
-        get user_path(1), {}, authorization_header(1)
-        expect(response).to have_http_status(:success)
-        expect(json_response[:firstname]).to eq "TJ"
-        expect(json_response[:id]).to eq 1
-        expect(json_response[:id]).to eq User.first.id
-      end
-    end
-
-    context "when user is not authorized" do
-      it "returns unauthorized error message" do
-        get user_path(1), {}, nil
-        expect(response).to have_http_status(:unauthorized)
-        expect(json_response[:error]).to eq "Not Authorized"
-      end
-    end
-  end
-
   describe "PUT #update" do
     context "with valid parameters" do
       it "updates selected user" do
