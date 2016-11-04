@@ -22,11 +22,7 @@ module Helpers
     end
 
     def create_item
-      post(
-        items_path,
-        attributes_for(:item),
-        authorization_header(1)
-      )
+      post items_path, attributes_for(:item), authorization_header(1)
     end
 
     def decoded_token

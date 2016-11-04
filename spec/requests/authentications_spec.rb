@@ -48,17 +48,25 @@ RSpec.describe "Authentications", type: :request do
         expect(invalid_token[:issue_number]).to_not eq User.first.issue_number
       end
     end
-  end
 
-  describe "prevent unauthorized use of authenticated tokens" do
-    context "with a tampered token" do
-      it "rejects all token requests" do
-        delete user_path(1), {}, tampered_token
+    context "with invalid jwt token" do
+      it "returns not authorized error" do
+        get auth_logout_path, {}, tampered_token
         expect(response).to have_http_status(:unauthorized)
         expect(json_response[:error]).to eq "Not Authorized"
       end
     end
 
+    context "with no jwt token" do
+      it "returns not authorized error" do
+        get auth_logout_path
+        expect(response).to have_http_status(:unauthorized)
+        expect(json_response[:error]).to eq "Not Authorized"
+      end
+    end
+  end
+
+  describe "prevent unauthorized use of valid tokens" do
     context "with valid token" do
       it "disallows access to other user's information" do
         create_bucketlist
