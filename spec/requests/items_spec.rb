@@ -8,75 +8,125 @@ RSpec.describe "Items", type: :request do
   end
 
   describe "POST #create" do
-    context "with valid parameters" do
-      it "creates a new item" do
-        expect(response).to have_http_status(:success)
-        expect(Item.count).to eq 1
-        expect(json_response[:id]).to eq 1
-        expect(json_response[:name]).to eq "MyItems"
-        expect(json_response[:done]).to eq false
+    context "with authorization header" do
+      context "with valid parameters" do
+        it "creates a new item" do
+          expect(response).to have_http_status(:success)
+          expect(Item.count).to eq 1
+          expect(json_response[:id]).to eq 1
+          expect(json_response[:name]).to eq "MyItems"
+          expect(json_response[:done]).to eq false
+        end
+      end
+
+      context "with invalid parameters" do
+        it "fails to create a new item" do
+          post items_path, { item: { name: nil } }, authorization_header(1)
+          expect(response).to have_http_status(400)
+          expect(Item.count).to eq 1
+          expect(json_response[:name]).to_not eq "MyItems"
+          expect(json_response[:error]).to eq "Item not created, try again"
+        end
       end
     end
 
-    context "with invalid parameters" do
-      it "fails to create a new item" do
-        post items_path, { item: { name: nil } }, authorization_header(1)
-        expect(response).to have_http_status(400)
-        expect(Item.count).to eq 1
-        expect(json_response[:name]).to_not eq "MyItems"
-        expect(json_response[:error]).to eq "Item not created, try again"
+    context "with no valid authorization header" do
+      it "returns unauthorized error" do
+        post items_path, attributes_for(:item)
+        expect(response).to have_http_status(:unauthorized)
+        expect(json_response[:error]).to eq "Not Authorized"
       end
     end
   end
 
   describe "GET #index" do
-    it "lists all items in the selected bucketlist" do
-      get items_path, {}, authorization_header(1)
-      expect(response).to have_http_status(:success)
-      expect(json_response.first[:name]).to eq "MyItems"
-      expect(json_response.count).to eq Item.count
+    context "with authorization header" do
+      it "lists all items in the selected bucketlist" do
+        get items_path, {}, authorization_header(1)
+        expect(response).to have_http_status(:success)
+        expect(json_response.first[:name]).to eq "MyItems"
+        expect(json_response.count).to eq Item.count
+      end
+    end
+
+    context "with no valid authorization header" do
+      it "returns unauthorized error" do
+        get items_path
+        expect(response).to have_http_status(:unauthorized)
+        expect(json_response[:error]).to eq "Not Authorized"
+      end
     end
   end
 
   describe "GET #show" do
-    it "renders the selected item" do
-      get item_path, {}, authorization_header(1)
-      expect(response).to have_http_status(:success)
-      expect(json_response[:name]).to eq "MyItems"
-      expect(json_response[:id]).to eq 1
-      expect(json_response[:id]).to eq Item.first.id
+    context "with authorization header" do
+      it "renders the selected item" do
+        get item_path, {}, authorization_header(1)
+        expect(response).to have_http_status(:success)
+        expect(json_response[:name]).to eq "MyItems"
+        expect(json_response[:id]).to eq 1
+        expect(json_response[:id]).to eq Item.first.id
+      end
+    end
+
+    context "with no valid authorization header" do
+      it "returns unauthorized error" do
+        get item_path
+        expect(response).to have_http_status(:unauthorized)
+        expect(json_response[:error]).to eq "Not Authorized"
+      end
     end
   end
 
   describe "PUT #update" do
-    context "with valid parameters" do
-      it "updates selected item" do
-        put item_path, { name: "Taris" }, authorization_header(1)
-        expect(response).to have_http_status(:success)
-        expect(json_response[:name]).to eq "Taris"
-        expect(Item.first.name).to eq "Taris"
-        expect(json_response[:id]).to eq 1
+    context "with authorization header" do
+      context "with valid parameters" do
+        it "updates selected item" do
+          put item_path, { name: "Taris" }, authorization_header(1)
+          expect(response).to have_http_status(:success)
+          expect(json_response[:name]).to eq "Taris"
+          expect(Item.first.name).to eq "Taris"
+          expect(json_response[:id]).to eq 1
+        end
+      end
+
+      context "with invalid parameters" do
+        it "fails to update selected item" do
+          put item_path, { name: nil }, authorization_header(1)
+          expect(response).to have_http_status(400)
+          expect(Item.first.name).to_not eq nil
+          expect(json_response[:name]).to_not eq "MyItems"
+          expect(json_response[:error]).to eq "Item not updated, try again"
+        end
       end
     end
 
-    context "with invalid parameters" do
-      it "fails to update selected item" do
-        put item_path, { name: nil }, authorization_header(1)
-        expect(response).to have_http_status(400)
-        expect(Item.first.name).to_not eq nil
-        expect(json_response[:name]).to_not eq "MyItems"
-        expect(json_response[:error]).to eq "Item not updated, try again"
+    context "with no valid authorization header" do
+      it "returns unauthorized error" do
+        put item_path, name: "Taris"
+        expect(response).to have_http_status(:unauthorized)
+        expect(json_response[:error]).to eq "Not Authorized"
       end
     end
   end
 
   describe "DELETE #destroy" do
-    it "destroys the selected item" do
-      delete item_path, {}, authorization_header(1)
-      expect(response).to have_http_status(:success)
-      expect(json_response[:name]).to eq nil
-      expect(Item.count).to eq 0
-      expect(json_response[:message]).to eq "Item deleted"
+    context "with authorization header" do
+      it "destroys the selected item" do
+        delete item_path, {}, authorization_header(1)
+        expect(response).to have_http_status(:success)
+        expect(json_response[:name]).to eq nil
+        expect(Item.count).to eq 0
+        expect(json_response[:message]).to eq "Item deleted"
+      end
+    end
+
+    context "with no valid authorization header" do
+      it "returns unauthorized error" do
+        delete item_path
+        expect(response).to have_http_status(:unauthorized)
+        expect(json_response[:error]).to eq "Not Authorized"
+      end
     end
   end
 end
