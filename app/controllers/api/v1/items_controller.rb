@@ -16,7 +16,7 @@ module Api
       end
 
       def index
-        return forbidden_message unless @items
+        return not_permitted unless @items
         render json: @items.paginate(params[:limit], params[:page])
       end
 
@@ -25,11 +25,8 @@ module Api
       end
 
       def update
-        if @item.update(item_params)
-          render json: @item
-        else
-          render json: { error: not_updated_message }, status: 400
-        end
+        return not_updated unless @item.update(item_params)
+        render json: @item
       end
 
       def destroy
@@ -53,7 +50,7 @@ module Api
       end
 
       def prevent_forbidden_item
-        return forbidden_message unless @item
+        return not_permitted unless @item
       end
 
       def set_bucketlist_id

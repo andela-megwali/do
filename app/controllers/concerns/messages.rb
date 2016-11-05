@@ -28,8 +28,12 @@ module Concerns
       "Invalid Credentials Detected"
     end
 
-    def forbidden_message
+    def not_permitted
       render json: { error: not_permitted_message }, status: 403
+    end
+
+    def not_updated
+      render json: { error: not_updated_message }, status: 400
     end
   end
 end

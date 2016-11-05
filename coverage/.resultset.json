@@ -309,6 +309,10 @@
         1,
         null,
         null,
+        1,
+        2,
+        null,
+        null,
         null
       ],
       "/Users/andela/Desktop/mic/checkpoints/bucketlist/do/lib/json_web_token.rb": [
@@ -356,9 +360,6 @@
         1,
         2,
         1,
-        null,
-        1,
-        null,
         null,
         null,
         1,
@@ -445,9 +446,6 @@
         2,
         1,
         null,
-        1,
-        null,
-        null,
         null,
         1,
         1,
@@ -532,6 +530,6 @@
         null
       ]
     },
-    "timestamp": 1478372519
+    "timestamp": 1478373282
   }
 }

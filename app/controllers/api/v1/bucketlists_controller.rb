@@ -25,11 +25,8 @@ module Api
       end
 
       def update
-        if @bucketlist.update(bucketlist_params)
-          render json: @bucketlist
-        else
-          render json: { error: not_updated_message }, status: 400
-        end
+        return not_updated unless @bucketlist.update(bucketlist_params)
+        render json: @bucketlist
       end
 
       def destroy
@@ -47,7 +44,7 @@ module Api
       end
 
       def prevent_forbidden_bucketlist
-        return forbidden_message unless @bucketlist
+        return not_permitted unless @bucketlist
       end
 
       def bucketlist_params
