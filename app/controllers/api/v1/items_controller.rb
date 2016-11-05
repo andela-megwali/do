@@ -16,9 +16,7 @@ module Api
       end
 
       def index
-        return (
-          render json: { error: not_permitted_message }, status: 403
-        ) unless @items
+        return forbidden_message unless @items
         render json: @items.paginate(params[:limit], params[:page])
       end
 
@@ -55,9 +53,7 @@ module Api
       end
 
       def prevent_forbidden_item
-        return (
-          render json: { error: not_permitted_message }, status: 403
-        ) unless @item
+        return forbidden_message unless @item
       end
 
       def set_bucketlist_id

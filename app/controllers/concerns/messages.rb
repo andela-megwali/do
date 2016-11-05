@@ -27,5 +27,9 @@ module Concerns
     def invalid_login_message
       "Invalid Credentials Detected"
     end
+
+    def forbidden_message
+      render json: { error: not_permitted_message }, status: 403
+    end
   end
 end
