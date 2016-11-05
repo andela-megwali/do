@@ -3,15 +3,13 @@ module Api
     class BucketlistsController < ApplicationController
       before_action :get_user_bucketlists, except: [:create]
       before_action :set_bucketlist, except: [:create, :index]
+      before_action :prevent_forbidden_bucketlist, except: [:create, :index]
 
       def create
         @bucketlist = Bucketlist.new(bucketlist_params)
         @bucketlist.user_id = @current_user.id
-        if @bucketlist.save
-          render json: @bucketlist
-        else
-          render json: { error: not_created_message }, status: 400
-        end
+        return not_created unless @bucketlist.save
+        render json: @bucketlist
       end
 
       def index
@@ -24,15 +22,11 @@ module Api
       end
 
       def update
-        if @bucketlist.update(bucketlist_params)
-          render json: @bucketlist
-        else
-          render json: { error: not_updated_message }, status: 400
-        end
+        return not_updated unless @bucketlist.update(bucketlist_params)
+        render json: @bucketlist
       end
 
       def destroy
-        return (render json: @bucketlist) if @bucketlist.to_s[0] == "{"
         render json: { message: delete_message } if @bucketlist.destroy
       end
 
@@ -44,7 +38,10 @@ module Api
 
       def set_bucketlist
         @bucketlist = @bucketlists.find_by(id: params[:id])
-        @bucketlist ||= { error: not_permitted_message, status: 403 }
+      end
+
+      def prevent_forbidden_bucketlist
+        return not_permitted unless @bucketlist
       end
 
       def bucketlist_params
