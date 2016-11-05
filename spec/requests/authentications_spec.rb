@@ -72,6 +72,7 @@ RSpec.describe "Authentications", type: :request do
         create_bucketlist
         create(:user, :user2)
         get bucketlist_path, {}, authorization_header(2)
+        expect(response).to have_http_status(:forbidden)
         expect(json_response[:error]).to eq "You do not own that Bucketlist"
       end
     end
