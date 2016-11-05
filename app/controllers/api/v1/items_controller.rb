@@ -8,11 +8,8 @@ module Api
       def create
         @item = Item.new(item_params)
         set_bucketlist_id
-        if @item.save
-          render json: @item
-        else
-          render json: { error: not_created_message }, status: 400
-        end
+        return not_created unless @item.save
+        render json: @item
       end
 
       def index

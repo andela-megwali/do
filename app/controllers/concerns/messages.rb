@@ -35,5 +35,9 @@ module Concerns
     def not_updated
       render json: { error: not_updated_message }, status: 400
     end
+
+    def not_created
+      render json: { error: not_created_message }, status: 400
+    end
   end
 end
