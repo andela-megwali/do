@@ -47,9 +47,7 @@ module Api
       end
 
       def prevent_forbidden_bucketlist
-        return (
-          render json: { error: not_permitted_message }, status: 403
-        ) unless @bucketlist
+        return forbidden_message unless @bucketlist
       end
 
       def bucketlist_params
