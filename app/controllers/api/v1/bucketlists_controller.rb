@@ -3,7 +3,6 @@ module Api
     class BucketlistsController < ApplicationController
       before_action :get_user_bucketlists, except: [:create]
       before_action :set_bucketlist, except: [:create, :index]
-      before_action :prevent_forbidden_bucketlist, except: [:create, :index]
 
       def create
         @bucketlist = Bucketlist.new(bucketlist_params)
@@ -38,9 +37,6 @@ module Api
 
       def set_bucketlist
         @bucketlist = @bucketlists.find_by(id: params[:id])
-      end
-
-      def prevent_forbidden_bucketlist
         return not_permitted unless @bucketlist
       end
 

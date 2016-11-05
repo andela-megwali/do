@@ -3,7 +3,6 @@ module Api
     class ItemsController < ApplicationController
       before_action :get_bucketlist_items
       before_action :set_item, except: [:create, :index]
-      before_action :prevent_forbidden_item, except: [:create, :index]
 
       def create
         @item = Item.new(item_params)
@@ -13,7 +12,6 @@ module Api
       end
 
       def index
-        return not_permitted unless @items
         render json: @items.paginate(params[:limit], params[:page])
       end
 
@@ -40,13 +38,11 @@ module Api
         @bucketlist = @current_user.bucketlists.
                       find_by(id: params[:bucketlist_id])
         @items = @bucketlist.items if @bucketlist
+        return not_permitted unless @items
       end
 
       def set_item
         @item = @items.find_by(id: params[:id]) if @items
-      end
-
-      def prevent_forbidden_item
         return not_permitted unless @item
       end
 
