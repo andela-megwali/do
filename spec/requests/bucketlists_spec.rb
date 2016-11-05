@@ -6,7 +6,7 @@ RSpec.describe "Bucketlists", type: :request do
     create_bucketlist
   end
 
-  describe "POST #create" do
+  describe "POST /api/v1/bucketlists" do
     context "with authorization header" do
       context "with valid parameters" do
         it "creates a new bucketlist" do
@@ -40,13 +40,70 @@ RSpec.describe "Bucketlists", type: :request do
     end
   end
 
-  describe "GET #index" do
+  describe "GET /api/v1/bucketlists" do
     context "with authorization header" do
-      it "lists all the user's bucketlists" do
-        get bucketlists_path, {}, authorization_header(1)
-        expect(response).to have_http_status(:success)
-        expect(json_response.first[:name]).to eq "MyBucketlist"
-        expect(json_response.count).to eq Bucketlist.count
+      before do
+        5.times { create(:bucketlist, :bucketlist2) }
+        99.times { create_bucketlist }
+      end
+
+      context "with no pagination params" do
+        it "defaults and returns only the user's first 20 bucketlists" do
+          get bucketlists_path, {}, authorization_header(1)
+          expect(response).to have_http_status(:success)
+          expect(json_response.first[:name]).to eq "MyBucketlist"
+          expect(Bucketlist.count).to eq 105
+          expect(json_response.count).to eq 20
+          expect(json_response.first[:id]).to eq 1
+          expect(json_response.last[:id]).to eq 20
+        end
+      end
+
+      context "with invalid pagination params" do
+        it "defaults and returns only the user's first 20 bucketlists" do
+          get bucketlists_path, { page: -1, limit: -3 }, authorization_header(1)
+          expect(response).to have_http_status(:success)
+          expect(json_response.first[:name]).to eq "MyBucketlist"
+          expect(Bucketlist.count).to eq 105
+          expect(json_response.count).to eq 20
+          expect(json_response.first[:id]).to eq 1
+          expect(json_response.last[:id]).to eq 20
+        end
+      end
+
+      context "with pagination params and limit < 101" do
+        it "returns results limited by the pagination params" do
+          get bucketlists_path, { page: 2, limit: 5 }, authorization_header(1)
+          expect(response).to have_http_status(:success)
+          expect(json_response.first[:name]).to eq "OtherBucketlist"
+          expect(json_response.second[:name]).to eq "MyBucketlist"
+          expect(json_response.count).to eq 5
+          expect(json_response.first[:id]).to eq 6
+          expect(json_response.last[:id]).to eq 10
+        end
+      end
+
+      context "with pagination params and limit > 100" do
+        it "limits bucketlists returned to the first 100 on requested page" do
+          get bucketlists_path, { page: 1, limit: 200 }, authorization_header(1)
+          expect(response).to have_http_status(:success)
+          expect(json_response.first[:name]).to eq "MyBucketlist"
+          expect(json_response.count).to eq 100
+          expect(json_response.first[:id]).to eq 1
+          expect(json_response.last[:id]).to eq 100
+        end
+      end
+
+      context "with pagination params and search params" do
+        it "returns results limited by the pagination and search params" do
+          get bucketlists_path, { limit: 3, q: "othe" }, authorization_header(1)
+          expect(response).to have_http_status(:success)
+          expect(json_response.first[:name]).to_not eq "MyBucketlist"
+          expect(json_response.first[:name]).to eq "OtherBucketlist"
+          expect(json_response.count).to eq 3
+          expect(json_response.first[:id]).to eq 2
+          expect(json_response.last[:id]).to eq 4
+        end
       end
     end
 
@@ -59,7 +116,7 @@ RSpec.describe "Bucketlists", type: :request do
     end
   end
 
-  describe "GET #show" do
+  describe "GET /api/v1/bucketlists/1" do
     context "with authorization header" do
       it "renders the selected bucketlist" do
         get bucketlist_path, {}, authorization_header(1)
@@ -79,7 +136,7 @@ RSpec.describe "Bucketlists", type: :request do
     end
   end
 
-  describe "PUT #update" do
+  describe "PUT /api/v1/bucketlists/1" do
     context "with authorization header" do
       context "with valid parameters" do
         it "updates selected bucketlist" do
@@ -112,7 +169,7 @@ RSpec.describe "Bucketlists", type: :request do
     end
   end
 
-  describe "DELETE #destroy" do
+  describe "DELETE /api/v1/bucketlists/1" do
     context "with authorization header" do
       it "destroys the selected bucketlist" do
         delete bucketlist_path, {}, authorization_header(1)

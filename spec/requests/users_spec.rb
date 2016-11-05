@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe "Users", type: :request do
   before { create :user }
 
-  describe "POST #create" do
+  describe "POST /users" do
     context "with valid parameters" do
       it "creates a new user" do
         post users_path, attributes_for(:user, :user2)
@@ -25,7 +25,7 @@ RSpec.describe "Users", type: :request do
     end
   end
 
-  describe "PUT #update" do
+  describe "PUT /users/1" do
     context "with valid parameters" do
       it "updates selected user" do
         put(
@@ -50,7 +50,7 @@ RSpec.describe "Users", type: :request do
     end
   end
 
-  describe "DELETE #destroy" do
+  describe "DELETE /users/1" do
     it "destroys the selected user" do
       delete user_path(1), {}, authorization_header(1)
       expect(response).to have_http_status(:success)

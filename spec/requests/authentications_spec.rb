@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe "Authentications", type: :request do
   before { create :user }
 
-  describe "POST #login" do
+  describe "POST /auth/login" do
     context "with valid login credentials" do
       before { post auth_login_path, attributes_for(:user) }
 
@@ -30,7 +30,7 @@ RSpec.describe "Authentications", type: :request do
     end
   end
 
-  describe "GET #logout" do
+  describe "GET /auth/logout" do
     context "with valid jwt token" do
       it "returns logout success message" do
         get auth_logout_path, {}, authorization_header(1)

@@ -4,6 +4,7 @@ FactoryGirl.define do
 
     trait(:bucketlist2) do
       name "OtherBucketlist"
+      user_id 1
     end
   end
 end

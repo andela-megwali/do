@@ -7,7 +7,7 @@ RSpec.describe "Items", type: :request do
     create_item
   end
 
-  describe "POST #create" do
+  describe "POST /api/v1/bucketlists/1/items" do
     context "with authorization header" do
       context "with valid parameters" do
         it "creates a new item" do
@@ -39,13 +39,54 @@ RSpec.describe "Items", type: :request do
     end
   end
 
-  describe "GET #index" do
+  describe "GET /api/v1/bucketlists/1/items" do
     context "with authorization header" do
-      it "lists all items in the selected bucketlist" do
-        get items_path, {}, authorization_header(1)
-        expect(response).to have_http_status(:success)
-        expect(json_response.first[:name]).to eq "MyItems"
-        expect(json_response.count).to eq Item.count
+      before { 100.times { create_item } }
+
+      context "with no pagination params" do
+        it "defaults and returns only the bucketlist's first 20 items" do
+          get items_path, {}, authorization_header(1)
+          expect(response).to have_http_status(:success)
+          expect(json_response.first[:name]).to eq "MyItems"
+          expect(Item.count).to eq 101
+          expect(json_response.count).to eq 20
+          expect(json_response.first[:id]).to eq 1
+          expect(json_response.last[:id]).to eq 20
+        end
+      end
+
+      context "with invalid pagination params" do
+        it "defaults and returns only the bucketlist's first 20 items" do
+          get items_path, { page: -1, limit: -3 }, authorization_header(1)
+          expect(response).to have_http_status(:success)
+          expect(json_response.first[:name]).to eq "MyItems"
+          expect(Item.count).to eq 101
+          expect(json_response.count).to eq 20
+          expect(json_response.first[:id]).to eq 1
+          expect(json_response.last[:id]).to eq 20
+        end
+      end
+
+      context "with pagination params and limit < 101" do
+        it "returns item results limited by the pagination params" do
+          get items_path, { page: 2, limit: 5 }, authorization_header(1)
+          expect(response).to have_http_status(:success)
+          expect(json_response.first[:name]).to eq "MyItems"
+          expect(json_response.count).to eq 5
+          expect(json_response.first[:id]).to eq 6
+          expect(json_response.last[:id]).to eq 10
+        end
+      end
+
+      context "with pagination params and limit > 100" do
+        it "limits items returned to the first 100 on requested page" do
+          get items_path, { page: 1, limit: 200 }, authorization_header(1)
+          expect(response).to have_http_status(:success)
+          expect(json_response.first[:name]).to eq "MyItems"
+          expect(json_response.count).to eq 100
+          expect(json_response.first[:id]).to eq 1
+          expect(json_response.last[:id]).to eq 100
+        end
       end
     end
 
@@ -58,7 +99,7 @@ RSpec.describe "Items", type: :request do
     end
   end
 
-  describe "GET #show" do
+  describe "GET /api/v1/bucketlists/1/items/1" do
     context "with authorization header" do
       it "renders the selected item" do
         get item_path, {}, authorization_header(1)
@@ -78,7 +119,7 @@ RSpec.describe "Items", type: :request do
     end
   end
 
-  describe "PUT #update" do
+  describe "PUT /api/v1/bucketlists/1/items/1" do
     context "with authorization header" do
       context "with valid parameters" do
         it "updates selected item" do
@@ -110,7 +151,7 @@ RSpec.describe "Items", type: :request do
     end
   end
 
-  describe "DELETE #destroy" do
+  describe "DELETE /api/v1/bucketlists/1/items/1" do
     context "with authorization header" do
       it "destroys the selected item" do
         delete item_path, {}, authorization_header(1)
