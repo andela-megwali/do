@@ -5,11 +5,11 @@ class Item < ActiveRecord::Base
 
   validates_presence_of :name, :bucketlist_id
 
-  before_create :item_status
+  before_create :status
 
   private
 
-  def item_status
+  def status
     self.done ||= 0
   end
 end
