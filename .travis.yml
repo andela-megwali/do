@@ -4,3 +4,8 @@ rvm:
 script: 
   - RAILS_ENV=test bundle exec rake db:migrate --trace
   - bundle exec rspec spec/
+
+addons:
+  code_climate:
+      repo_token: 76972b2b842f3534fb48c897bc9685f8f6b5842c5ea780fd4492f9ad6db531e9
+
