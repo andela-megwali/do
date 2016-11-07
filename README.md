@@ -1,5 +1,6 @@
 # Do!
 <a href="https://codeclimate.com/github/andela-megwali/do"><img src="https://codeclimate.com/github/andela-megwali/do/badges/gpa.svg" /></a>
+<a href="https://codeclimate.com/github/andela-megwali/do"><img src="https://codeclimate.com/github/andela-megwali/do/badges/issue_count.svg" /></a>
 <a href='https://coveralls.io/github/andela-megwali/do?branch=master'><img src='https://coveralls.io/repos/github/andela-megwali/do/badge.svg?branch=master' alt='Coverage Status' /></a>
 [![Build Status](https://travis-ci.org/andela-megwali/do.svg?branch=master)](https://travis-ci.org/andela-megwali/do)
 
