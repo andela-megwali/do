@@ -8,7 +8,7 @@ class AuthenticationController < ApplicationController
       issue_number: authenticate_user.issue_number
     }
     user_token = JsonWebToken.encode(payload)
-    render json: { auth_token: user_token }
+    render json: { auth_token: user_token, message: login_message }
   end
 
   def logout
