@@ -5,8 +5,7 @@ module Api
       before_action :set_item, except: [:create, :index]
 
       def create
-        @item = Item.new(item_params)
-        set_bucketlist_id
+        @item = @bucketlist.items.new(item_params)
         return not_created unless @item.save
         render json: @item
       end
@@ -44,10 +43,6 @@ module Api
       def set_item
         @item = @items.find_by(id: params[:id]) if @items
         return not_permitted unless @item
-      end
-
-      def set_bucketlist_id
-        @item.bucketlist_id = @bucketlist.id
       end
     end
   end

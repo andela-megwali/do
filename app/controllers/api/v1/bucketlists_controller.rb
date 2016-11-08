@@ -5,8 +5,7 @@ module Api
       before_action :set_bucketlist, except: [:create, :index]
 
       def create
-        @bucketlist = Bucketlist.new(bucketlist_params)
-        @bucketlist.user_id = @current_user.id
+        @bucketlist = @current_user.bucketlists.new(bucketlist_params)
         return not_created unless @bucketlist.save
         render json: @bucketlist
       end
