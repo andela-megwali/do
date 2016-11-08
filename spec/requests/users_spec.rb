@@ -7,7 +7,6 @@ RSpec.describe "Users", type: :request do
     context "with valid parameters" do
       it "creates a new user" do
         post users_path, attributes_for(:user, :user2)
-        binding.pry
         expect(response).to have_http_status(:success)
         expect(User.count).to eq 2
         expect(json_response[:firstname]).to eq "TJ"
