@@ -20,6 +20,10 @@ module Concerns
       "Not Authorized"
     end
 
+    def login_message
+      "Your token is valid for 2hours only, but you can logout any time before."
+    end
+
     def logout_message
       "User logged out of all active sessions"
     end

@@ -11,6 +11,7 @@ class User < ActiveRecord::Base
   private
 
   def generate_issue_number
-    self.issue_number = rand(100..999).to_s
+    invalid_number = issue_number
+    self.issue_number = rand(100..999).to_s while issue_number == invalid_number
   end
 end
