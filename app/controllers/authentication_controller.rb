@@ -20,6 +20,7 @@ class AuthenticationController < ApplicationController
   private
 
   def login_params
+    params[:email].downcase! if params[:email]
     params.permit(:email, :password)
   end
 
