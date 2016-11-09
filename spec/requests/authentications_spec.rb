@@ -10,6 +10,7 @@ RSpec.describe "Authentications", type: :request do
       it "assigns and renders a jwt authentication token" do
         expect(response).to have_http_status(200)
         expect(json_response[:auth_token]).to_not eq nil
+        expect(json_response[:message]).to include "token is valid for 2hours"
       end
 
       it "creates token with valid user_id and issue_number key" do
